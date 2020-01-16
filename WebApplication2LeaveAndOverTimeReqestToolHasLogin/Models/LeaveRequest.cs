@@ -33,6 +33,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Models
         public int Status { get; set; }
         [Display(Name = "Leader Comment")] 
         public string LeaderComment { get; set; }
+        public string LastEditedByAccount { get; set; }
         public int Month { get; set; }
         public LeaveRequest()
         {

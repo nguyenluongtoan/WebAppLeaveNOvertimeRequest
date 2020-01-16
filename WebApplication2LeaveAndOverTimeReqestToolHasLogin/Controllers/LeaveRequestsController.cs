@@ -96,6 +96,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             leaveRequest.TimeStamp = DateTime.Now;
             leaveRequest.Status = Constants.OPEN;
             leaveRequest.Month = 0;
+            leaveRequest.LastEditedByAccount = leaveRequest.Account;
 
             if (ModelState.IsValid)
             {
@@ -135,6 +136,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
         {
             if (ModelState.IsValid)
             {
+                leaveRequest.LastEditedByAccount = User.Identity.Name;
                 db.Entry(leaveRequest).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -169,6 +171,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
                 LeaveRequest leaveRequest1 = await db.LeaveRequests.FindAsync(leaveRequest.LeaveRequestID);
                 leaveRequest1.Status = Constants.REJECTED;
                 leaveRequest1.LeaderComment = comment;
+                leaveRequest1.LastEditedByAccount = User.Identity.Name;
                 db.Entry(leaveRequest1).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 await Mail.SendNotice(leaveRequest1, Constants.MEMBER, Constants.REJECTED);
@@ -192,6 +195,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             }
             leaveRequest.TimeStamp = DateTime.Now;
             leaveRequest.Status = Constants.APPROVED;
+            leaveRequest.LastEditedByAccount = User.Identity.Name;
             db.Entry(leaveRequest).State = EntityState.Modified;
             await db.SaveChangesAsync();
             await Mail.SendNotice(leaveRequest, Constants.MEMBER, Constants.APPROVED);
@@ -199,6 +203,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             //await Mail.SendNotice(leaveRequest, Constants.HR, Constants.APPROVED);
             return RedirectToAction("Index");
         }
+        //unused, using ApproveOrReject HttpPost
         [Authorize]
         public async Task<ActionResult> RejectRequest(int? id, string leaderComment)
         {
@@ -214,6 +219,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             leaveRequest.TimeStamp = DateTime.Now;
             leaveRequest.LeaderComment = leaderComment;
             leaveRequest.Status = Constants.REJECTED;
+            leaveRequest.LastEditedByAccount = User.Identity.Name;
             db.Entry(leaveRequest).State = EntityState.Modified;
             await db.SaveChangesAsync();
             await Mail.SendNotice(leaveRequest, Constants.MEMBER, Constants.REJECTED);
