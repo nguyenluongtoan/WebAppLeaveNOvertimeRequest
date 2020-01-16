@@ -1,0 +1,169 @@
+﻿@model WebApplication2LeaveAndOverTimeReqestToolHasLogin.Models.LeaveRequest
+
+@{
+    ViewBag.Title = "Details";
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem
+    {
+        Text = "Full",
+        Value = "1"
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "AM",
+        Value = "2",
+        Selected = true
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "PM",
+        Value = "3"
+    });
+
+    List<SelectListItem> listStatus = new List<SelectListItem>();
+    listStatus.Add(new SelectListItem { 
+        Text = "Open",
+        Value = "0"
+    });
+    listStatus.Add(new SelectListItem { 
+        Text = "Approved",
+        Value = "1"
+    });
+    listStatus.Add(new SelectListItem { 
+        Text = "Rejected",
+        Value = "2"
+    });
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LeaveRequest</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeStamp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeStamp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Account)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmailAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LeaderAccount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LeaderAccount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LeaderEmailAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LeaderEmailAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LeaveDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LeaveDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoDayOff)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoDayOff)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FullAmPm)
+        </dt>
+
+        <dd>
+            <div class="form-group">
+                <div class="col-md-10">
+
+                    @Html.DropDownListFor(model => model.FullAmPm,
+                    listItems,
+                            "Select Type", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FullAmPm, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TypeOfLeave)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypeOfLeave)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReasonForLeave)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReasonForLeave)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            <div class="form-group">
+                <div class="col-md-10">
+
+                    @Html.DropDownListFor(model => model.Status,
+                    listStatus,
+                            "Select Type", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LeaderComment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LeaderComment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Month)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Month)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.LeaveRequestID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
