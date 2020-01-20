@@ -1,108 +1,37 @@
-﻿@model IEnumerable<WebApplication2LeaveAndOverTimeRequestToolHasLogin.Models.LeaveRequest>
-@{
-    ViewBag.Title = "Index";
-    ViewBag.Header = [];
-}
+﻿<table class="table">
+    <tr>
+        <th>account/name</th>
+        <th>actual</th>
+    </tr>
+    @foreach (var item in ViewBag.Total)
+    {
+    <tr>
+        <td>@item.Key</td>
+        <td>@item.Value</td>
 
-@using (Html.BeginForm())
-{
-    <p>
-        Find by name or email: @Html.TextBox("SearchString")
-        <input type="submit" value="Search" />
-    </p>
-}
+    </tr>
+    }
+</table>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TimeStamp)
-        </th>
-        <th>
-            @Html.ActionLink("Account", "Index", new { sortOrder = ViewBag.NameSortParm })
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EmailAddress)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LeaderAccount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LeaderEmailAddress)
-        </th>
-        <th>
-            @Html.ActionLink("Leave Date", "Index", new { sortOrder = ViewBag.DateSortParm })
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NoDayOff)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FullAmPm)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TypeOfLeave)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReasonForLeave)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LeaderComment)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Month)
-        </th>
+        <th>No</th>
+        <th>month</th>
+        <th>date</th>
+        <th>account/name</th>
+        <th>project</th>
+        <th>plan</th>
+        <th>actual</th>
         <th></th>
+        <th>aprroved by</th>
+        <th>reason</th>
     </tr>
-    @foreach (var item in Model)
+    @foreach (var item in ViewBag.Data2019)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeStamp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Account)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmailAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaderAccount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaderEmailAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NoDayOff)
-            </td>
-            <td>
-                
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TypeOfLeave)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReasonForLeave)
-            </td>
-            <td>
-               
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaderComment)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Month)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.LeaveRequestID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.LeaveRequestID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.LeaveRequestID })
-                @Html.ActionLink("Approve/Reject", "ApproveOrReject", new { id = item.LeaveRequestID })
-            </td>
-        </tr>
+            @foreach (var meti in item)
+            {
+                <td>@meti</td>
+            }
+    </tr>
     }
-
 </table>

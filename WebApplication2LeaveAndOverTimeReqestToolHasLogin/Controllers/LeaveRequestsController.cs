@@ -266,11 +266,78 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
         public async Task<ActionResult> Data2019()
         {
             Services.GoogleSheet googleSheet = new GoogleSheet();
-            googleSheet.Url = "https://docs.google.com/spreadsheets/d/1lYBNEs-YhKCHwYCFeHQNZXM1wW1NnJH6LUsr8aix0-U/edit?ts=5e1d31bb#gid=1625926108";
+            googleSheet.Url = "https://docs.google.com/spreadsheets/d/1lYBNEs-YhKCHwYCFeHQNZXM1wW1NnJH6LUsr8aix0-U";
             googleSheet.TabName = "2019";
-            googleSheet.Range = "A2,J";
+            googleSheet.Range = "A2:J";
+            //googleSheet.Url = "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
+            //googleSheet.TabName = "Class Data";
+            //googleSheet.Range = "A2:E";
             googleSheet.Init();
-            googleSheet.ResponseValues();
+            
+            ViewBag.Data2019 = googleSheet.ResponseValues();
+            IList<IList<Object>> values = googleSheet.ResponseValues();
+            HashSet<string> namceounts = new HashSet<string>();
+            Dictionary<string, int> namceountKeyActualTimeValue = new Dictionary<string, int>();
+            if (values != null && values.Count > 0)
+            {
+                foreach (var row in values)
+                {
+                    int countCell = 0;
+                    foreach (var cell in row)
+                    {
+                        countCell++;
+                        if(countCell == 4)
+                        {
+                            namceounts.Add(cell.ToString());
+                        }
+                        
+                    }
+                }
+            }
+            foreach(string namceount in namceounts)
+            {
+                namceountKeyActualTimeValue.Add(namceount, 0);
+            }
+            if (values != null && values.Count > 0)
+            {
+                foreach (var row in values)
+                {
+                    int countCell = 0;
+                    string namceount = "";
+                    foreach (var cell in row)
+                    {
+                        countCell++;
+
+                        if (countCell == 1)
+                        {
+                            namceount = "";
+                        }
+                        if (countCell == 4)
+                        {
+                            namceount = cell.ToString();
+                        }
+                        if (countCell == 7)
+                        {
+                            if (!namceountKeyActualTimeValue.ContainsKey(namceount))
+                            {
+                                continue;
+                            }
+                            int val = namceountKeyActualTimeValue[namceount];
+                            try
+                            {
+                                val = val + int.Parse(cell.ToString());
+                            }
+                            catch(Exception e)
+                            {
+                                string g = e.Message;
+                            }
+                           
+                            namceountKeyActualTimeValue[namceount] = val;
+                        }
+                    }
+                }
+            }
+            ViewBag.Total = namceountKeyActualTimeValue;
             return View();
         }
     }
