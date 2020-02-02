@@ -51,5 +51,19 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Utils
             }
             return leaders;
         }
+
+        public static List<string> GetMemberAccount()
+        {
+            string path = HostingEnvironment.MapPath("~/App_Data/Member list 200120.csv");
+            List<string> FileReadAllLinesToList = System.IO.File.ReadAllLines(path).ToList();
+            List<string> result = new List<string>();
+            foreach (string aline in FileReadAllLinesToList)
+            {
+                string[] alineSplit = aline.Split(',');
+                string account = alineSplit[1];
+                result.Add(account);
+            }
+            return result;
+        }
     }
 }

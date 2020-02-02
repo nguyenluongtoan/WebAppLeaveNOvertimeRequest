@@ -1,5 +1,5 @@
 ﻿@model WebApplication2LeaveAndOverTimeReqestToolHasLogin.Models.LeaveRequest
-
+@using WebApplication2LeaveAndOverTimeReqestToolHasLogin.Utils
 @{
     ViewBag.Title = "Edit";
 
@@ -22,15 +22,18 @@
     });
 
     List<SelectListItem> listStatus = new List<SelectListItem>();
-    listStatus.Add(new SelectListItem { 
+    listStatus.Add(new SelectListItem
+    {
         Text = "Open",
         Value = "0"
     });
-    listStatus.Add(new SelectListItem { 
+    listStatus.Add(new SelectListItem
+    {
         Text = "Approved",
         Value = "1"
     });
-    listStatus.Add(new SelectListItem { 
+    listStatus.Add(new SelectListItem
+    {
         Text = "Rejected",
         Value = "2"
     });
@@ -42,132 +45,141 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>LeaveRequest</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.LeaveRequestID)
+
+    <div class="form-horizontal">
+        <h4>LeaveRequest</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.LeaveRequestID)
 
 
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+            </div>
         </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LeaderAccount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LeaderAccount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LeaderAccount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.LeaveDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LeaveDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LeaveDate, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NoDayOff, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NoDayOff, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NoDayOff, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FullAmPm, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @Html.DropDownListFor(model => model.FullAmPm,
+                listItems,
+                        "Select Type", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FullAmPm, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TypeOfLeave, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.TypeOfLeave, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TypeOfLeave, "", new { @class = "text-danger" })*@
+
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.SICK_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.SICK_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.ANNUAL_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.ANNUAL_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.COMPESATIVE_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.COMPESATIVE_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.OT_LAST_YEAR_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.OT_LAST_YEAR_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.WITHOUT_PAY_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.WITHOUT_PAY_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.COMPASSTIONATE_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.COMPASSTIONATE_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.ENGAGEMENT_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.ENGAGEMENT_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.MATERNITY_3_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.MATERNITY_3_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.MATERNITY_7_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.MATERNITY_7_LEAVE<br />
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReasonForLeave, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.ReasonForLeave, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ReasonForLeave, "", new { @class = "text-danger" })*@
+                @Html.RadioButtonFor(model => model.ReasonForLeave, "Bereavement leave (Immediate Family) - Gia đình có việc gấp")
+                Bereavement leave (Immediate Family) - Gia đình có việc gấp<br />
+                @Html.RadioButtonFor(model => model.ReasonForLeave, "Personal leave (Việc cá nhân ko tiện tiết lộ)")
+                Personal leave (Việc cá nhân ko tiện tiết lộ)<br />
+                @Html.RadioButtonFor(model => model.ReasonForLeave, "Travelling")
+                Travelling<br />
+                @Html.RadioButtonFor(model => model.ReasonForLeave, "Sickness")
+                Sickness<br />
+                @Html.RadioButtonFor(model => model.ReasonForLeave, "Other")
+                Other<br />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @Html.DropDownListFor(model => model.Status,
+                listStatus,
+                        "Select Type", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LeaderComment, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LeaderComment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LeaderComment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Reject Request" class="btn btn-default" />-
+                @Html.ActionLink("Approve", "ApproveRequest", new { id = Model.LeaveRequestID }, new { @class = "btn btn-default" })
+
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+
+                @*@Html.ActionLink("Reject", "RejectRequest", new { id = Model.LeaveRequestID, leaderComment = Model.LeaderComment }, null)*@
+            </div>
+        </div>
+
     </div>
-
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.LeaderAccount, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.LeaderAccount, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.LeaderAccount, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-
-    @*<div class="form-group">
-        @Html.LabelFor(model => model.LeaveDate, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.LeaveDate, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.LeaveDate, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.NoDayOff, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NoDayOff, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.NoDayOff, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.FullAmPm, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-
-            @Html.DropDownListFor(model => model.FullAmPm,
-            listItems,
-                    "Select Type", new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.FullAmPm, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.TypeOfLeave, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @*@Html.EditorFor(model => model.TypeOfLeave, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TypeOfLeave, "", new { @class = "text-danger" })*@
-
-            @Html.RadioButtonFor(model => model.TypeOfLeave, "Sick leave (Illness or Injury) - Nghỉ ốm có giấy của bệnh Viện")
-            Sick leave (Illness or Injury) - Nghỉ ốm có giấy của bệnh Viện<br />
-            @Html.RadioButtonFor(model => model.TypeOfLeave, "Annual leave (Nghỉ Phép)")
-            Annual leave (Nghỉ Phép)<br />
-            @Html.RadioButtonFor(model => model.TypeOfLeave, "Compensative leave (Nghỉ bù OT)")
-            Compensative leave (Nghỉ bù OT)<br />
-            @Html.RadioButtonFor(model => model.TypeOfLeave, "Leave without pay (Nghỉ không lương)")
-            Leave without pay (Nghỉ không lương)<br />
-            @Html.RadioButtonFor(model => model.TypeOfLeave, "Other")
-            Other<br />
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ReasonForLeave, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @*@Html.EditorFor(model => model.ReasonForLeave, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ReasonForLeave, "", new { @class = "text-danger" })*@
-            @Html.RadioButtonFor(model => model.ReasonForLeave, "Bereavement leave (Immediate Family) - Gia đình có việc gấp")
-            Bereavement leave (Immediate Family) - Gia đình có việc gấp<br />
-            @Html.RadioButtonFor(model => model.ReasonForLeave, "Personal leave (Việc cá nhân ko tiện tiết lộ)")
-            Personal leave (Việc cá nhân ko tiện tiết lộ)<br />
-            @Html.RadioButtonFor(model => model.ReasonForLeave, "Travelling")
-            Travelling<br />
-            @Html.RadioButtonFor(model => model.ReasonForLeave, "Sickness")
-            Sickness<br />
-            @Html.RadioButtonFor(model => model.ReasonForLeave, "Other")
-            Other<br />
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-
-            @Html.DropDownListFor(model => model.Status,
-            listStatus,
-                    "Select Type", new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.LeaderComment, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.LeaderComment, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.LeaderComment, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Reject Request" class="btn btn-default" />-
-            @Html.ActionLink("Approve", "ApproveRequest", new { id = Model.LeaveRequestID }, new { @class = "btn btn-default" })
-
-        </div>
-        <div class="col-md-offset-2 col-md-10">
-            
-            @*@Html.ActionLink("Reject", "RejectRequest", new { id = Model.LeaveRequestID, leaderComment = Model.LeaderComment }, null)*@
-        </div>
-    </div>
-    
-</div>
 }
 
 <div>

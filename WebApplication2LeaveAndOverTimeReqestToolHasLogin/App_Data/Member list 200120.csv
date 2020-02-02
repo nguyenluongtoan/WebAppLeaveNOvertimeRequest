@@ -1,0 +1,80 @@
+No.,Account,Fullname,Name,Employee ID,Department
+1,Xuan,Phùng Thanh Xuân,Xuân,17010001,BOD
+2,Hai,Nguy?n Hoàng H?i,H?i,17040013,BOD
+3,Thuy,Tr?nh Th? Thanh Th?y,Th?y,19030076,BOD
+4,Thuy.Nguyen,Nguy?n Th? Thúy,Thúy,17030011,Finance
+5,Tien.Vu,V? Vi?t Ti?n,Ti?n,17010002,Anno
+6,LanTT,Tr?nh Th? Lan,Lan,17010003,Test
+7,Dung.Phan,Phan Anh D?ng,D?ng,17010004,Test
+8,Bach.Nguyen,Nguy?n Xuân Bách,Bách,17010006,Anno
+9,Trong.Le,Lê Duy Tr?ng,Tr?ng,17010007,Test
+10,Khiem.Nguyen,Nguy?n V?n Khiêm,Khiêm,17010008,Test
+11,TrangTQ,Tr?n Qu?nh Trang,Trang,17010009,Test
+12,AnhNTN,Nguy?n Th? Ng?c Anh,Anh,17040015,Admin
+13,GiangDT,?inh Ti?n Giang,Giang,17040016,Anno
+14,HungKM,Kh?ng Minh Hùng,Hùng,17040018,Test
+15,HienNTM,Nguy?n Th? Minh Hi?n,Hi?n,17040019,Test
+16,DuongDN,??ng Nam D??ng,D??ng,17040020,Test
+17,QuynhDTH,?oàn Th? H??ng Qu?nh,Qu?nh,17050023,Test
+18,AnhNTT,Nguy?n Th? Thúy Anh,Anh,17060024,Test
+19,AnTD,Tr?n ??c An,An,17060025,Test
+20,YenTT,Tr?n Th? Y?n,Y?n,17070028,Test
+21,QuynhHT,Hoàng Th? Quýnh,Quýnh,17070029,Test
+22,GiangNT,Nguy?n Th? Giang,Giang,17080031,Test
+23,HuyenHT,H? Th? Huy?n,Huy?n,17090032,Test
+24,VietPT,Phùng T?t Vi?t,Vi?t,17100033,Test
+25,LongTD,Tr?n Duy Long,Long,17100034,Anno
+26,NganNK,Nguy?n Kim Ngân,Ngân,17080036,Anno
+27,ToanNL,Nguy?n L??ng Toàn,Toàn,18020038,IT
+28,HangTT,Tr?n Th? H?ng,H?ng,17090040,Anno
+29,VanDT,Doãn Th? Vân,Vân,17080041,Anno
+30,HueNT,Nguy?n Th? Hu?,Hu?,17080042,Anno
+31,LinhLTD,Lê Th? Di?u Linh,Linh,17090043,Anno
+32,NganPTT,Ph?m Th? Thúy Ngân,Ngân,18060048,Test
+33,ThuyTN,Tr?n Ng?c Thúy,Thúy,18070051,Test
+34,NhanDT,?? Tr?ng Nhân,Nhân,18070052,Anno
+35,HaoPA,Ph?m Anh Hào,Hào,18070053,Anno
+36,PhongDT,D??ng Tu?n Phong,Phong,18070055,Anno
+37,TramTTN,Tr?n Th? Ng?c Trâm,Trâm,18080057,Test
+38,ThinhNT,Nguy?n Thành Th?nh,Th?nh,18090060,Test
+39,HoaNT,Nguy?n Th? Hòa,Hòa,18100062,Anno
+40,DungNT,Ngô Th? Dung,Dung,18100063,Test
+41,ChauVM,V? Minh Châu,Châu,18100064,Test
+42,HuongTTT,Tr?n Th? Thu H??ng,H??ng,18110066,Test
+43,ThamVT,Vi Th? Th?m,Th?m,18120070,Anno
+44,LeTTN,Tr?n Th? Nh?t L?,L?,18120071,Anno
+45,MaiNDC,Nguy?n Di?m Chi Mai,Mai,19010072,Test
+46,Hanh.Do,?? Th? M? H?nh,H?nh,19010073,Sales
+47,HanhNT,Nguy?n Th? H?nh,H?nh,19020074,Test
+48,ThanhNV,Nguy?n V?n Thanh,Thanh,19030075,IT
+49,NamNH,Nguy?n Hoàng Nam,Nam,19050077,Test
+50,TrangVT,V? Thu Trang,Trang,19060080,Anno
+51,NamTH,Tr?n H?i Nam,Nam,19060081,Anno
+52,TanNC,Nguy?n Chí Tân,Tân,19060082,Anno
+53,ThanhNH,Nguy?n H?u Thành,Thành,19060083,Anno
+54,TienPD,Ph?m ??c Ti?n,Ti?n,19060084,Anno
+55,HoaNTT,Nguy?n Th? Thanh Hòa,Hòa,19060085,Test
+56,VanTTT,Tr?n Th? Thanh Vân,Vân,19060086,Test
+57,NgocVH,V? H?ng Ng?c,Ng?c,19060087,Anno
+58,TienTV,Tr?n V?n Ti?n,Ti?n,19070090,Test
+59,BaoNQ,Nguy?n Qu?c B?o,B?o,19070091,Test
+60,NganLTK,Lê Th? Kim Ngân,Ngân,19070092,Test
+61,MaiNH,Nguy?n H??ng Mai,Mai,19070093,Test
+62,MinhNT,Nguy?n Tr??ng Minh,Minh,19070094,Test
+63,GiangNT1,Nguy?n Th? Giang,Giang,19080097,Anno
+64,DungMNT,Mai Nguy?n Thùy Dung,Dung,19080098,Anno
+65,LyNT,Nguy?n Th? Lý,Lý,19080099,Anno
+66,NgaNTD,Nguy?n Th? Di?u Nga,Nga,19080100,Anno
+67,DuongTV,Tr?n V?n D??ng,D??ng,19080101,Anno
+68,HoangNN,Nguy?n Ng?c Hoàng,Hoàng,19080102,Anno
+69,HueBT,Bùi Thu Hu?,Hu?,19090103,Admin
+70,NgocTTB,Tr?n Th? Bích Ng?c,Ng?c,19090105,Sales
+71,TrangKTT,Ki?u Th? Thùy Trang,Trang,19090106,Anno
+72,DuongLT,Lý Thùy D??ng,D??ng,19090107,Finance
+73,QuynhNN,Ngô Ng?c Qu?nh,Qu?nh,19010109,Anno
+74,ThuyCV,Chu V?n Thùy,Thùy,19010110,Anno
+75,NhungTT,Tr?n Th? Nhung,Nhung,19010111,Anno
+76,DuyetPT,Ph?m Th? Duy?t,Duy?t,19010112,Anno
+77,DuyNT,Nguy?n Trung Duy,Duy,19010113,Anno
+78,PhuongNT1,Nguy?n Th? Ph??ng,Ph??ng,19010114,Anno
+79,DungTTT,Tr?nh Th? Thùy Dung,Dung,19110115,SQA

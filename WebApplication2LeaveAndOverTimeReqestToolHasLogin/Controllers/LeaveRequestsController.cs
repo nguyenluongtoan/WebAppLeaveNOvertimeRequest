@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using WebApplication2LeaveAndOverTimeReqestToolHasLogin.Models;
 using WebApplication2LeaveAndOverTimeReqestToolHasLogin.Utils;
 using WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services;
+using WebApplication2LeaveAndOverTimeReqestToolHasLogin.Repositones;
 
 namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
 {
@@ -17,6 +18,11 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
     public class LeaveRequestsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private CompensativeLeave cl = CompensativeLeave.Instance;
+        //public LeaveRequestsController()
+        //{
+        //    cl = CompensativeLeave.Instance;
+        //}
         [Authorize]
         // GET: LeaveRequests
         public async Task<ActionResult> Index(string sortOrder, string searchString)
@@ -50,7 +56,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             }
             return View(await leaveRequests.ToListAsync());
         }
-
+        //[Authorize(Roles = "Admin")]
         // GET: LeaveRequests/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -71,7 +77,9 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
         {
             ViewBag.AllLeaders = Utils.Csv.GetLeaderAccount();
             ViewBag.AllLeaders2 = Utils.Csv.GetLeaderInfo();
+            ViewBag.AllMembers = Utils.Csv.GetMemberAccount();
             ViewBag.Type = new int[3] { 1, 2, 3 };
+            ViewBag.AllowCompensativeLeave = true;
             return View();
         }
 
@@ -92,6 +100,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
         {
             ViewBag.AllLeaders = Utils.Csv.GetLeaderAccount();
             ViewBag.AllLeaders2 = Utils.Csv.GetLeaderInfo();
+            ViewBag.AllMembers = Utils.Csv.GetMemberAccount();
             ViewBag.Type = new int[3] { 1, 2, 3 };
             leaveRequest.TimeStamp = DateTime.Now;
             leaveRequest.Status = Constants.OPEN;
@@ -100,11 +109,23 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
 
             if (ModelState.IsValid)
             {
+                if(leaveRequest.TypeOfLeave == "Compensative leave (Nghỉ bù OT)")
+                {
+                    //if (cl.Allowable(leaveRequest.Account))
+                    //{
+                    //    ViewBag.AllowCompensativeLeave = true;
+                    //}
+                    //else
+                    //{
+                    //    ViewBag.AllowCompensativeLeave = false;
+                    //    return View(leaveRequest);
+                    //}
+                }
+                
                 db.LeaveRequests.Add(leaveRequest);
                 await db.SaveChangesAsync();
                 await Mail.SendCreatedReqMail2Member(leaveRequest);
                 await Mail.SendCreatedReqMail2Leader(leaveRequest, Constants.LEADER);
-                //await Mail.SendCreatedReqMail2Leader(leaveRequest, Constants.HR);
                 return RedirectToAction("Index");
             }
 
@@ -175,8 +196,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
                 db.Entry(leaveRequest1).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 await Mail.SendNotice(leaveRequest1, Constants.MEMBER, Constants.REJECTED);
-                await Mail.SendNotice(leaveRequest1, Constants.LEADER, Constants.REJECTED);
-                //await Mail.SendNotice(leaveRequest, Constants.HR, Constants.APPROVED);
+                //await Mail.SendNotice(leaveRequest1, Constants.LEADER, Constants.REJECTED);
                 return RedirectToAction("Index");
             }
             return View(leaveRequest);
@@ -199,8 +219,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             db.Entry(leaveRequest).State = EntityState.Modified;
             await db.SaveChangesAsync();
             await Mail.SendNotice(leaveRequest, Constants.MEMBER, Constants.APPROVED);
-            await Mail.SendNotice(leaveRequest, Constants.LEADER, Constants.APPROVED);
-            //await Mail.SendNotice(leaveRequest, Constants.HR, Constants.APPROVED);
+            //await Mail.SendNotice(leaveRequest, Constants.LEADER, Constants.APPROVED);
             return RedirectToAction("Index");
         }
         //unused, using ApproveOrReject HttpPost
@@ -223,8 +242,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             db.Entry(leaveRequest).State = EntityState.Modified;
             await db.SaveChangesAsync();
             await Mail.SendNotice(leaveRequest, Constants.MEMBER, Constants.REJECTED);
-            await Mail.SendNotice(leaveRequest, Constants.LEADER, Constants.REJECTED);
-            //await Mail.SendNotice(leaveRequest, Constants.HR, Constants.REJECTED);
+            //await Mail.SendNotice(leaveRequest, Constants.LEADER, Constants.REJECTED);
             return RedirectToAction("Index");
         }
         // GET: LeaveRequests/Delete/5
@@ -290,7 +308,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
                         {
                             namceounts.Add(cell.ToString());
                         }
-                        
+                         
                     }
                 }
             }
@@ -338,6 +356,12 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
                 }
             }
             ViewBag.Total = namceountKeyActualTimeValue;
+
+            return View();
+        }
+    
+        public async Task<ActionResult> DataSummary()
+        {
             return View();
         }
     }

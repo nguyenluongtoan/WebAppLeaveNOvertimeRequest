@@ -20,5 +20,27 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Utils
         public const int LEADER = 1;
         public const int HR = 2;
 
+        
+
     }
+
+    public class TYPE_OF_LEAVE_REQUEST
+    {
+        public const string SICK_LEAVE = "Sick leave (Illness or Injury) - Nghỉ ốm có giấy của bệnh Viện";
+        public const string ANNUAL_LEAVE = "Annual leave (Nghỉ Phép)";
+        public const string COMPESATIVE_LEAVE = "Compensative leave (Nghỉ bù OT)";
+        public const string OT_LAST_YEAR_LEAVE = "OT/Last year compensation";
+        public const string WITHOUT_PAY_LEAVE = "Leave without pay (Nghỉ không lương)";
+        public const string COMPASSTIONATE_LEAVE = "Compassionate leave (Nghỉ tang(1-3d))";
+        public const string ENGAGEMENT_LEAVE = "Engagement leave (Nghỉ kết hôn(3d))";
+        public const string MATERNITY_3_LEAVE = "Maternity leave (Nghỉ chăm con < 3t ốm (20d))";
+        public const string MATERNITY_7_LEAVE = "Maternity leave (Nghỉ chăm con 3-7t ốm (15d))";
+        //"Maternity leave (Nghỉ thai sản(5d))";
+
+
+
+
+
+    }
+
 }

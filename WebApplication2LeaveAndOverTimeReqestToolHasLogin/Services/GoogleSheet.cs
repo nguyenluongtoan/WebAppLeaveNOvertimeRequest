@@ -33,6 +33,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services
         {
             FirstTime = true;
             SetSpreadSheetIdFromUrl();
+            IListIListObject = new List<IList<object>>();
         }
         public bool FirstTime { get; set; }
         public void SetSpreadSheetIdFromUrl()
@@ -45,6 +46,8 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services
         public IList<IList<Object>> ResponseValues()
         {
             Init();
+            // comment just for test
+            FirstTime = false;
             if (FirstTime)
             {
                 FirstTime = false;

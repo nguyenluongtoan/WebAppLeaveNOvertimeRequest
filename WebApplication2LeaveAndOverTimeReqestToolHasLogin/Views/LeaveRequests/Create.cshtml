@@ -1,5 +1,5 @@
 ﻿@model WebApplication2LeaveAndOverTimeReqestToolHasLogin.Models.LeaveRequest
-
+@using WebApplication2LeaveAndOverTimeReqestToolHasLogin.Utils
 @{
     ViewBag.Title = "Create";
 
@@ -81,7 +81,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NoDayOff, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NoDayOff, new { htmlAttributes = new { @class = "form-control", type = "number", min = "0", step = "0.25"  } })
+                @Html.EditorFor(model => model.NoDayOff, new { htmlAttributes = new { @class = "form-control", type = "number", min = "0", step = "0.25" } })
                 @Html.ValidationMessageFor(model => model.NoDayOff, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -112,18 +112,39 @@
             @Html.LabelFor(model => model.TypeOfLeave, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.TypeOfLeave, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.TypeOfLeave, "", new { @class = "text-danger" })*@
+        @Html.ValidationMessageFor(model => model.TypeOfLeave, "", new { @class = "text-danger" })*@
 
-                @Html.RadioButtonFor(model => model.TypeOfLeave, "Sick leave (Illness or Injury) - Nghỉ ốm có giấy của bệnh Viện")
-                Sick leave (Illness or Injury) - Nghỉ ốm có giấy của bệnh Viện<br />
-                @Html.RadioButtonFor(model => model.TypeOfLeave, "Annual leave (Nghỉ Phép)")
-                Annual leave (Nghỉ Phép)<br />
-                @Html.RadioButtonFor(model => model.TypeOfLeave, "Compensative leave (Nghỉ bù OT)")
-                Compensative leave (Nghỉ bù OT)<br />
-                @Html.RadioButtonFor(model => model.TypeOfLeave, "Leave without pay (Nghỉ không lương)")
-                Leave without pay (Nghỉ không lương)<br />
-                @Html.RadioButtonFor(model => model.TypeOfLeave, "Other")
-                Other<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.SICK_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.SICK_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.ANNUAL_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.ANNUAL_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.COMPESATIVE_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.COMPESATIVE_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.OT_LAST_YEAR_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.OT_LAST_YEAR_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.WITHOUT_PAY_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.WITHOUT_PAY_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.COMPASSTIONATE_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.COMPASSTIONATE_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.ENGAGEMENT_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.ENGAGEMENT_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.MATERNITY_3_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.MATERNITY_3_LEAVE<br />
+                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.MATERNITY_7_LEAVE)
+                @TYPE_OF_LEAVE_REQUEST.MATERNITY_7_LEAVE<br />
+                @if (!ViewBag.AllowCompensativeLeave)
+                {
+                    <span class="text-danger field-validation-error" data-valmsg-for="" data-valmsg-replace="">
+                        <span id="" class="">Quá ngày nghỉ bù.</span>
+                    </span>
+                }
+                @*@if (!ViewBag.AllowAnnualLeave)
+        {
+            <span class="text-danger field-validation-error" data-valmsg-for="" data-valmsg-replace="">
+                <span id="" class="">Quá ngày nghỉ phép.</span>
+            </span>
+        }*@
+
             </div>
         </div>
 
@@ -163,6 +184,9 @@
 
 @section Scripts {
     @*<script src="@Url.Content("~/Scripts/custom.js")"></script>*@
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
@@ -180,8 +204,21 @@
                 }
             }
         });
-            
+
+        $(function () {
+            var availableTags = @Html.Raw(Json.Encode(ViewBag.AllMembers));
+            //var availableTags = [
+            //  "ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++", "Clojure",
+            //  "COBOL", "ColdFusion", "Erlang", "Fortran", "Groovy", "Haskell",
+            //  "Java", "JavaScript", "Lisp", "Perl", "PHP", "Python",
+            //  "Ruby", "Scala", "Scheme"
+            //];
+            $( "#Account" ).autocomplete({
+              source: availableTags
+            });
+        });
+
     </script>
 
-  
+
 }
