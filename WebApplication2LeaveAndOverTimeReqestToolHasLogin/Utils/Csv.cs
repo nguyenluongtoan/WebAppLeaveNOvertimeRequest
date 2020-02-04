@@ -65,5 +65,19 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Utils
             }
             return result;
         }
+        public static List<KeyValuePair<string, int>> GetMemberLeaveDays()
+        {
+            string path = HostingEnvironment.MapPath("~/App_Data/nghiPhep2020.csv");
+            List<string> FileReadAllLinesToList = System.IO.File.ReadAllLines(path).ToList();
+            List<KeyValuePair<string, int>> MemberOtHour = new List<KeyValuePair<string, int>>();
+            foreach (string aline in FileReadAllLinesToList)
+            {
+                string[] alineSplit = aline.Split(',');
+                string account = alineSplit[0];
+                int noHour = int.Parse(alineSplit[1]);
+                MemberOtHour.Add(new KeyValuePair<string, int>(account, noHour));
+            }
+            return MemberOtHour;
+        }
     }
 }

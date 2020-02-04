@@ -21,7 +21,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services
         static void Init()
         {
             //client = new SendGridClient(apiKey);
-            Template.Prefix = Constants.LOCALHOST_DEVELOP;
+            Template.Prefix = Constants.DATALQA_PUBLISHED;
             from = new MailAddress("toannl@lqa.com.vn", "LQA System");
             string fromPassword = "HHH432qa2$jk";
             
