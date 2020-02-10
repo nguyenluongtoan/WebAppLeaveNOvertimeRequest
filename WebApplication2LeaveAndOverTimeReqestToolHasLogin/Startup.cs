@@ -79,36 +79,71 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin
                     "VanTTT","NgocVH","TienTV","BaoNQ","NganLTK","MaiNH","MinhNT","GiangNT1","DungMNT","LyNT","NgaNTD","DuongTV","HoangNN","HueBT","NgocTTB","TrangKTT","DuongLT","QuynhNN","ThuyCV",
                     "NhungTT","DuyetPT","DuyNT","PhuongNT1","DungTTT",
                 };
-                List<string> leaderAccounts = Utils.Csv.GetLeaderAccount();
+                List<string> existEmails = new List<string>() {
+                    //"tien.vu",
+                    //"hai",
+                    //"thuytn1",
+                    "giangnt",
+                    "toannl1",
+                    "khiem.nguyen",
+                    "ngannk",
+                    "xuan",
+                    "thuytn",
+                    "thuy",
+                    "toannl",
+                    "dungttt",
+                    "bach.nguyen",
+                    "toannl2",
+                    "giangdt",
+                    "haopa"
+                };
 
-                foreach (string email in emails)
+                //List<string> leaderAccounts = Utils.Csv.GetLeaderAccount();
+
+                //foreach (string email in emails)
+                //{
+                //    if (existEmails.Contains(email.ToLower()))
+                //    {
+                //        continue;
+                //    }
+                //    var user = new ApplicationUser();
+                //    user.UserName = email + "@lqa.com.vn";
+                //    user.Email = user.UserName;
+
+                //    string userPWD = "zzzZ2@";
+                //    ApplicationUser existUser = null;
+                //    existUser = UserManager.FindByName(user.UserName);
+                //    if (existUser != null)
+                //        continue;
+
+                //    existUser = UserManager.FindByEmail(user.Email);
+                //    if (existUser != null)
+                //        continue;
+                //    var chkUser = UserManager.Create(user, userPWD);
+                //    //Add default User to Role Admin    
+                //    if (chkUser.Succeeded)
+                //    {
+                //        var result1 = UserManager.AddToRole(user.Id, "Employee");
+
+                //    }
+                //    else
+                //    {
+                //        var r = 0;
+                //    }
+                //}
+                foreach(string email in existEmails)
                 {
-                    var user = new ApplicationUser();
-                    user.UserName = email + "@lqa.com.vn";
-                    user.Email = user.UserName;
-
-                    string userPWD = "zzzZ2@";
-                    ApplicationUser existUser = null;
-                    existUser = UserManager.FindByName(user.UserName);
-                    if (existUser != null)
-                        continue;
-
-                    existUser = UserManager.FindByEmail(user.Email);
-                    if (existUser != null)
-                        continue;
-                    var chkUser = UserManager.Create(user, userPWD);
-                    //Add default User to Role Admin    
-                    if (chkUser.Succeeded)
+                    string g = email + "@lqa.com.vn";
+                    var user = UserManager.FindByEmail(g);
+                    try
                     {
-                        var result1 = UserManager.AddToRole(user.Id, "Employee");
-
-                    }
-                    else
+                        UserManager.AddToRole(user.Id, "Manager");
+                    }catch(System.Exception e)
                     {
-                        var r = 0;
+                        string gg = e.Message;
                     }
+                    
                 }
-
             }
         }
         

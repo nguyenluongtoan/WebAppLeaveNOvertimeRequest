@@ -24,6 +24,13 @@
 
 }
 
+<style>
+    .nopadding{
+        padding: 0  ;
+        margin: 0  ;
+    }
+</style>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -36,12 +43,19 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-10">
+
+            <a href="#" onclick="addTailEmail('gmail')">using .lqa@gmail.com</a> or <a href="#" onclick="addTailEmail('lqa')">using mail@lqa.com.vn</a>
+        </div>
+
         </div>
 
         <div class="form-group">
@@ -55,19 +69,17 @@
         <div class="form-group">
             @Html.LabelFor(model => model.LeaderAccount, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.LeaderAccount,
-                        new SelectList(ViewBag.AllLeaders),
-                        "Select Leader", new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LeaderAccount, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <div class="col-md-5 nopadding">
+                    @Html.DropDownListFor(model => model.LeaderAccount,
+                            new SelectList(ViewBag.AllLeaders),
+                            "Select Leader", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LeaderAccount, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LeaderEmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LeaderEmailAddress, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LeaderEmailAddress, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.LeaderEmailAddress, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.LeaderEmailAddress, "", new { @class = "text-danger" })
+                </div>
             </div>
+
         </div>
 
         <div class="form-group">
@@ -87,17 +99,17 @@
         </div>
 
         @*<div class="form-group">
-                @Html.LabelFor(model => model.FullAmPm, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.FullAmPm,
-                     new SelectList(ViewBag.Type),
-                            "Select Type", new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.FullAmPm, "", new { @class = "text-danger" })
-                </div>
-                <div class="col-md-10">
-                    Full-1; AM-2; PM-3
-                </div>
-            </div>*@
+            @Html.LabelFor(model => model.FullAmPm, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.FullAmPm,
+                 new SelectList(ViewBag.Type),
+                        "Select Type", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FullAmPm, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-10">
+                Full-1; AM-2; PM-3
+            </div>
+        </div>*@
         <div class="form-group">
             @Html.LabelFor(model => model.FullAmPm, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -112,7 +124,7 @@
             @Html.LabelFor(model => model.TypeOfLeave, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.TypeOfLeave, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.TypeOfLeave, "", new { @class = "text-danger" })*@
+                @Html.ValidationMessageFor(model => model.TypeOfLeave, "", new { @class = "text-danger" })*@
 
                 @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.SICK_LEAVE)
                 @TYPE_OF_LEAVE_REQUEST.SICK_LEAVE<br />
@@ -139,11 +151,11 @@
                     </span>
                 }
                 @*@if (!ViewBag.AllowAnnualLeave)
-        {
-            <span class="text-danger field-validation-error" data-valmsg-for="" data-valmsg-replace="">
-                <span id="" class="">Quá ngày nghỉ phép.</span>
-            </span>
-        }*@
+                {
+                    <span class="text-danger field-validation-error" data-valmsg-for="" data-valmsg-replace="">
+                        <span id="" class="">Quá ngày nghỉ phép.</span>
+                    </span>
+                }*@
 
             </div>
         </div>
@@ -153,7 +165,7 @@
             @Html.LabelFor(model => model.ReasonForLeave, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.ReasonForLeave, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ReasonForLeave, "", new { @class = "text-danger" })*@
+                @Html.ValidationMessageFor(model => model.ReasonForLeave, "", new { @class = "text-danger" })*@
                 @Html.RadioButtonFor(model => model.ReasonForLeave, "Bereavement leave (Immediate Family) - Gia đình có việc gấp")
                 Bereavement leave (Immediate Family) - Gia đình có việc gấp<br />
                 @Html.RadioButtonFor(model => model.ReasonForLeave, "Personal leave (Việc cá nhân ko tiện tiết lộ)")
@@ -217,6 +229,20 @@
               source: availableTags
             });
         });
+
+        function addTailEmail(type) {
+            //alert(1);
+            var current = $('#Account').val();
+            console.log(type);
+            console.log(current);
+            if (type == 'gmail') {
+                $('#EmailAddress').val(current + '.lqa@gmail.com');
+            }
+            if (type == 'lqa') {
+                $('#EmailAddress').val(current + '@@lqa.com.vn');
+            }
+            
+        }
 
     </script>
 

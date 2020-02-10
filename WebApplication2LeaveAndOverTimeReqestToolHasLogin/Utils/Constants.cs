@@ -20,7 +20,9 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Utils
         public const int LEADER = 1;
         public const int HR = 2;
 
-        
+        public const int FULL_DAY = 0;
+        public const int AM = 1;
+        public const int PM = 2;
 
     }
 

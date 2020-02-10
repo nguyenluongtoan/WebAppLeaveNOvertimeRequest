@@ -11,6 +11,7 @@ using WebApplication2LeaveAndOverTimeReqestToolHasLogin.Models;
 using WebApplication2LeaveAndOverTimeReqestToolHasLogin.Utils;
 using WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services;
 using WebApplication2LeaveAndOverTimeReqestToolHasLogin.Repositones;
+using OfficeOpenXml;
 
 namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
 {
@@ -19,24 +20,31 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private CompensativeLeave cl = CompensativeLeave.Instance;
+        private static List<LeaveRequest> excelUsed;
         //public LeaveRequestsController()
         //{
         //    cl = CompensativeLeave.Instance;
         //}
-        [Authorize]
+        [Authorize(Roles = "Admin,Manager")]
         // GET: LeaveRequests
-        public async Task<ActionResult> Index(string sortOrder, string searchString)
+        public async Task<ActionResult> Index(string sortOrder, string searchMemString, string searchLeadString)
         {
             // add col sort link
             //      ViewBag.NameSortParm
             // end add col sort link
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "account_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "LeaveDate" ? "date_desc" : "Date";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            
             var leaveRequests = from s in db.LeaveRequests select s;
-            if (!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchMemString))
             {
-                leaveRequests = leaveRequests.Where(s => s.Account.Contains(searchString) || s.EmailAddress.Contains(searchString)
-                                       || s.LeaderAccount.Contains(searchString) || s.LeaderEmailAddress.Contains(searchString)
+                leaveRequests = leaveRequests.Where(s => s.Account.Contains(searchMemString) || s.EmailAddress.Contains(searchMemString)
+                                      
+                                 );
+            }
+            if (!String.IsNullOrEmpty(searchLeadString))
+            {
+                leaveRequests = leaveRequests.Where(s =>  s.LeaderAccount.Contains(searchLeadString) || s.LeaderEmailAddress.Contains(searchLeadString)
                                  );
             }
             switch (sortOrder)
@@ -54,9 +62,10 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
                     leaveRequests = leaveRequests.OrderBy(s => s.Account);
                     break;
             }
+            excelUsed = await leaveRequests.ToListAsync();
             return View(await leaveRequests.ToListAsync());
         }
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: LeaveRequests/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -73,6 +82,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
         }
 
         // GET: LeaveRequests/Create
+        [Authorize(Roles = "Admin,Manager,Employee")]
         public ActionResult Create()
         {
             ViewBag.AllLeaders = Utils.Csv.GetLeaderAccount();
@@ -126,12 +136,14 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
                 await db.SaveChangesAsync();
                 await Mail.SendCreatedReqMail2Member(leaveRequest);
                 await Mail.SendCreatedReqMail2Leader(leaveRequest, Constants.LEADER);
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return RedirectToAction("Contact", "Home");
+
             }
 
             return View(leaveRequest);
         }
-        [Authorize]
+        [Authorize(Roles = "Admin,Manager")]
         // GET: LeaveRequests/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -164,7 +176,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             }
             return View(leaveRequest);
         }
-        [Authorize]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult> ApproveOrReject(int? id)
         {
             if (id == null)
@@ -201,7 +213,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             }
             return View(leaveRequest);
         }
-        [Authorize]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult> ApproveRequest(int? id)
         {
             if (id == null)
@@ -223,7 +235,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             return RedirectToAction("Index");
         }
         //unused, using ApproveOrReject HttpPost
-        [Authorize]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult> RejectRequest(int? id, string leaderComment)
         {
             if (id == null)
@@ -246,6 +258,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             return RedirectToAction("Index");
         }
         // GET: LeaveRequests/Delete/5
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -287,6 +300,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             googleSheet.Url = "https://docs.google.com/spreadsheets/d/1lYBNEs-YhKCHwYCFeHQNZXM1wW1NnJH6LUsr8aix0-U";
             googleSheet.TabName = "2019";
             googleSheet.Range = "A2:J";
+
             //googleSheet.Url = "https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
             //googleSheet.TabName = "Class Data";
             //googleSheet.Range = "A2:E";
@@ -362,7 +376,176 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
     
         public async Task<ActionResult> DataSummary()
         {
+            List<KeyValuePair<string, int>> keyValuePairs = Utils.Csv.GetMemberLeaveDays();
+            int keyValuePairsCount = keyValuePairs.Count;
+            ViewBag.GetMemberLeaveDays = keyValuePairs;
+            var leaveRequests = from s in db.LeaveRequests select s;
+            
+            int[] CountANNUAL_LEAVE = new int[keyValuePairsCount];
+            int[] CountANNUAL_LEAVE_OFF = new int[keyValuePairsCount];
+
+            int[] CountCOMPESATIVE_LEAVE = new int[keyValuePairsCount];
+            double[] CountCOMPESATIVE_LEAVE_OFF = new double[keyValuePairsCount];
+            double[] memberOtHours = new double[keyValuePairsCount];
+
+             
+            int[] CountCOMPASSTIONATE_LEAVE = new int[keyValuePairsCount]; ;
+            int[] CountENGAGEMENT_LEAVE = new int[keyValuePairsCount]; ;
+            int[] CountMATERNITY_3_LEAVE = new int[keyValuePairsCount]; ;
+            int[] CountMATERNITY_7_LEAVE = new int[keyValuePairsCount]; ;
+            int[] CountOT_LAST_YEAR_LEAVE = new int[keyValuePairsCount]; ;
+            int[] CountSICK_LEAVE = new int[keyValuePairsCount]; ;
+            int[] CountWITHOUT_PAY_LEAVE = new int[keyValuePairsCount]; ;
+
+            int iANNUAL_LEAVE = 0;
+            foreach (KeyValuePair<string, int> keyValuePair in keyValuePairs)
+            {
+                string account = keyValuePair.Key;
+                CountANNUAL_LEAVE[iANNUAL_LEAVE] = 
+                leaveRequests.Where(s => s.Account == keyValuePair.Key &&
+                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.ANNUAL_LEAVE
+                ).Count();
+
+                memberOtHours[iANNUAL_LEAVE] = CompensativeLeave.Instance.
+                    GetNoCompensativeLeaveDay(keyValuePair.Key);
+
+                CountCOMPESATIVE_LEAVE[iANNUAL_LEAVE] =
+                leaveRequests.Where(s => s.Account == keyValuePair.Key &&
+                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.COMPESATIVE_LEAVE
+                ).Count();
+                CountANNUAL_LEAVE_OFF[iANNUAL_LEAVE] = keyValuePair.Value - CountANNUAL_LEAVE[iANNUAL_LEAVE];
+                CountCOMPESATIVE_LEAVE_OFF[iANNUAL_LEAVE] = memberOtHours[iANNUAL_LEAVE] - CountCOMPESATIVE_LEAVE[iANNUAL_LEAVE];
+
+                CountCOMPASSTIONATE_LEAVE[iANNUAL_LEAVE] = leaveRequests.Where(s =>
+                    s.Account == account &&
+                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.COMPASSTIONATE_LEAVE
+                    ).Count();
+                CountENGAGEMENT_LEAVE[iANNUAL_LEAVE] = leaveRequests.Where(s =>
+                    s.Account == account &&
+                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.ENGAGEMENT_LEAVE
+                    ).Count();
+                CountMATERNITY_3_LEAVE[iANNUAL_LEAVE] = leaveRequests.Where(s =>
+                    s.Account == account &&
+                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.MATERNITY_3_LEAVE
+                    ).Count();
+                CountMATERNITY_7_LEAVE[iANNUAL_LEAVE] = leaveRequests.Where(s =>
+                    s.Account == account &&
+                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.MATERNITY_7_LEAVE
+                    ).Count();
+                CountOT_LAST_YEAR_LEAVE[iANNUAL_LEAVE] = leaveRequests.Where(s =>
+                    s.Account == account &&
+                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.OT_LAST_YEAR_LEAVE
+                    ).Count();
+                CountSICK_LEAVE[iANNUAL_LEAVE] = leaveRequests.Where(s =>
+                    s.Account == account &&
+                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.SICK_LEAVE
+                    ).Count();
+                CountWITHOUT_PAY_LEAVE[iANNUAL_LEAVE] = leaveRequests.Where(s =>
+                    s.Account == account &&
+                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.WITHOUT_PAY_LEAVE
+                    ).Count();
+
+                iANNUAL_LEAVE++;
+
+
+
+            }
+
+
+
+            ViewBag.ANNUAL_LEAVE = CountANNUAL_LEAVE;
+            ViewBag.ANNUAL_LEAVE_OFF = CountANNUAL_LEAVE_OFF;
+
+
+            ViewBag.GetMemberCOMPESATIVEDays = memberOtHours;
+
+            ViewBag.COMPESATIVE_LEAVE = CountCOMPESATIVE_LEAVE;
+            ViewBag.COMPASSTIONATE_LEAVE = CountCOMPASSTIONATE_LEAVE;
+            ViewBag.ENGAGEMENT_LEAVE = CountENGAGEMENT_LEAVE;
+            ViewBag.MATERNITY_3_LEAVE = CountMATERNITY_3_LEAVE;
+            ViewBag.MATERNITY_7_LEAVE = CountMATERNITY_7_LEAVE;
+            ViewBag.OT_LAST_YEAR_LEAVE = CountOT_LAST_YEAR_LEAVE;
+            ViewBag.SICK_LEAVE = CountSICK_LEAVE;
+            ViewBag.WITHOUT_PAY_LEAVE = CountWITHOUT_PAY_LEAVE;
+
+
             return View();
         }
+        public async Task<ActionResult> Export2Excel()
+        {
+            using (var p = new ExcelPackage())
+            {
+                //A workbook must have at least on cell, so lets add one... 
+                var ws = p.Workbook.Worksheets.Add("MySheet");
+                //To set values in the spreadsheet use the Cells indexer.
+                int rowStart = 2;
+                ws.Cells[string.Format("A{0}", 1)].Value = "Account";
+                ws.Cells[string.Format("B{0}", 1)].Value = "EmailAddress";
+                ws.Cells[string.Format("C{0}", 1)].Value = "Leader EmailAddress";
+                ws.Cells[string.Format("D{0}", 1)].Value = "Leave Date";
+                ws.Cells[string.Format("E{0}", 1)].Value = "No Day Off";
+                ws.Cells[string.Format("F{0}", 1)].Value = "Full/Am/Pm";
+                ws.Cells[string.Format("G{0}", 1)].Value = "Type Of Leave";
+                ws.Cells[string.Format("H{0}", 1)].Value = "Reason For Leave";
+                ws.Cells[string.Format("I{0}", 1)].Value = "status";
+                foreach (LeaveRequest leaveRequest in excelUsed)
+                {
+                    string fap = "Fullday";
+                    if(leaveRequest.FullAmPm == Constants.AM)
+                    {
+                        fap = "AM";
+                    }
+                    else if(leaveRequest.FullAmPm == Constants.PM)
+                    {
+                        fap = "PM";
+                    }
+
+                    string status = "OPEN";
+                    if(leaveRequest.Status == Constants.APPROVED)
+                    {
+                        status = "APPROVED";
+                    }
+                    else if (leaveRequest.Status == Constants.REJECTED)
+                    {
+                        status = "REJECTED";
+                    }
+
+                    ws.Cells[string.Format("A{0}",rowStart)].Value = leaveRequest.Account;
+                    ws.Cells[string.Format("B{0}", rowStart)].Value = leaveRequest.EmailAddress;
+                    ws.Cells[string.Format("C{0}", rowStart)].Value = leaveRequest.LeaderEmailAddress;
+                    ws.Cells[string.Format("D{0}", rowStart)].Value = leaveRequest.LeaveDate.ToString("MM/dd/yyyy");
+                    ws.Cells[string.Format("E{0}", rowStart)].Value = leaveRequest.NoDayOff;
+                    ws.Cells[string.Format("F{0}", rowStart)].Value = fap;
+                    ws.Cells[string.Format("G{0}", rowStart)].Value = leaveRequest.TypeOfLeave;
+                    ws.Cells[string.Format("H{0}", rowStart)].Value = leaveRequest.ReasonForLeave;
+                    ws.Cells[string.Format("I{0}", rowStart)].Value = status;
+                    rowStart++;
+                }
+
+
+
+                //Save the new workbook. We haven't specified the filename so use the Save as method.
+                //p.SaveAs(new FileInfo(@"c:\workbooks\myworkbook.xlsx"));
+                try
+                {
+                    var filename = @"REPORT_" + DateTime.Now.ToString("dd-MM-yyyy_hh-mm-ss") + ".xlsx";
+                    Response.Clear();
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.AddHeader("content-disposition", "attachment: filename=" + filename + ";");
+                    Response.BinaryWrite(p.GetAsByteArray());
+                    Response.End();
+                }
+                catch (Exception ex)
+                {
+                    // any error handling mechanism
+                }
+                finally
+                {
+                    //Application.CompleteRequest();
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
     }
 }

@@ -80,7 +80,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services
             {
                 using (var message = new MailMessage(from, to))
                 {
-                    //message.CC.Add("hr@lqa.com.vn");
+                    message.CC.Add("hr@lqa.com.vn");
                     message.Body = Template.Leave(leaveRequest);
                     message.IsBodyHtml = true;
                     message.Subject = subject;
@@ -124,7 +124,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services
             {
                 using (var message = new MailMessage(from, to))
                 {
-                    //message.CC.Add("hr@lqa.com.vn");
+                    message.CC.Add("hr@lqa.com.vn");
                     message.Body = Template.ApproveRequest(leaveRequest);
                     message.IsBodyHtml = true;
                     message.Subject = "[LQA][HR][Leave Request] " + leaveRequest.Account.ToUpper() + " xin phép vắng mặt ngày " +
@@ -183,7 +183,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services
             {
                 using (var message = new MailMessage(from, to))
                 {
-                    //message.CC.Add("hr@lqa.com.vn");
+                    message.CC.Add("hr@lqa.com.vn");
                     message.CC.Add(leaveRequest.LeaderEmailAddress);
                     message.Body = htmlContent;
                     message.IsBodyHtml = true;

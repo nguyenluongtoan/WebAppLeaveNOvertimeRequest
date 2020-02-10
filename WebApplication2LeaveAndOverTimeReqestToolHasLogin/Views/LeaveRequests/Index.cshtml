@@ -9,13 +9,26 @@
     @Html.ActionLink("Create New", "Create")
     @*@Html.ActionLink("Test New", "Test")*@
 </p>
-@using (Html.BeginForm())
-{
-    <p>
-        Find by name or email: @Html.TextBox("SearchString")
-        <input type="submit" value="Search" />
-    </p>
-}
+<div class="col-md-4">
+    @using (Html.BeginForm())
+    {
+        <p>
+            Find member by name or email: @Html.TextBox("SearchMemString")
+            <input type="submit" value="Search" />
+        </p>
+    }
+</div>
+<div class="col-md-4">
+    @using (Html.BeginForm())
+    {
+        <p>
+            Find leader by name or email: @Html.TextBox("SearchLeadString")
+            <input type="submit" value="Search" />
+        </p>
+    }
+</div>
+<br/>
+@Html.ActionLink("Export to excel", "Export2Excel")
 <table class="table">
     <tr>
         <th>
@@ -86,15 +99,15 @@
             </td>
             <td>
                 @{string fullAmPm = "FULL";}
-                @if (item.FullAmPm==0)
+                @if (item.FullAmPm == 0)
                 {
                     fullAmPm = "FULL";
                 }
-                else if (item.FullAmPm==1)
+                else if (item.FullAmPm == 1)
                 {
                     fullAmPm = "AM";
                 }
-                else if (item.FullAmPm==2)
+                else if (item.FullAmPm == 2)
                 {
                     fullAmPm = "PM";
                 }
@@ -138,3 +151,4 @@
     }
 
 </table>
+
