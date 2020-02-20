@@ -36,6 +36,8 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
             
             var leaveRequests = from s in db.LeaveRequests select s;
+            //leaveRequests = leaveRequests.Where(
+            //    s => User.Identity.Name.Contains(s.Account));
             if (!String.IsNullOrEmpty(searchMemString))
             {
                 leaveRequests = leaveRequests.Where(s => s.Account.Contains(searchMemString) || s.EmailAddress.Contains(searchMemString)
@@ -65,6 +67,16 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             excelUsed = await leaveRequests.ToListAsync();
             return View(await leaveRequests.ToListAsync());
         }
+        [Authorize(Roles = "Admin,Manager,Employee")]
+        public async Task<ActionResult> Individual()
+        {
+            var leaveRequests = from s in db.LeaveRequests select s;
+            leaveRequests = leaveRequests.Where(
+                s => User.Identity.Name.Contains(s.Account));
+            return View(await leaveRequests.ToListAsync());
+        }
+        
+
         [Authorize(Roles = "Admin")]
         // GET: LeaveRequests/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -208,7 +220,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
                 db.Entry(leaveRequest1).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 await Mail.SendNotice(leaveRequest1, Constants.MEMBER, Constants.REJECTED);
-                //await Mail.SendNotice(leaveRequest1, Constants.LEADER, Constants.REJECTED);
+                
                 return RedirectToAction("Index");
             }
             return View(leaveRequest);
@@ -231,7 +243,6 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             db.Entry(leaveRequest).State = EntityState.Modified;
             await db.SaveChangesAsync();
             await Mail.SendNotice(leaveRequest, Constants.MEMBER, Constants.APPROVED);
-            //await Mail.SendNotice(leaveRequest, Constants.LEADER, Constants.APPROVED);
             return RedirectToAction("Index");
         }
         //unused, using ApproveOrReject HttpPost
@@ -254,7 +265,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             db.Entry(leaveRequest).State = EntityState.Modified;
             await db.SaveChangesAsync();
             await Mail.SendNotice(leaveRequest, Constants.MEMBER, Constants.REJECTED);
-            //await Mail.SendNotice(leaveRequest, Constants.LEADER, Constants.REJECTED);
+            
             return RedirectToAction("Index");
         }
         // GET: LeaveRequests/Delete/5
@@ -531,7 +542,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
                     var filename = @"REPORT_" + DateTime.Now.ToString("dd-MM-yyyy_hh-mm-ss") + ".xlsx";
                     Response.Clear();
                     Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                    Response.AddHeader("content-disposition", "attachment: filename=" + filename + ";");
+                    Response.AddHeader("content-disposition", "attachment: filename=" + filename);
                     Response.BinaryWrite(p.GetAsByteArray());
                     Response.End();
                 }

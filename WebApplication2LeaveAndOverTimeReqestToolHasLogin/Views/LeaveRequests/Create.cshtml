@@ -7,18 +7,18 @@
     listItems.Add(new SelectListItem
     {
         Text = "Full",
-        Value = "1"
+        Value = "0"
     });
     listItems.Add(new SelectListItem
     {
         Text = "AM",
-        Value = "2",
+        Value = "1",
         Selected = true
     });
     listItems.Add(new SelectListItem
     {
         Text = "PM",
-        Value = "3"
+        Value = "2"
     });
 
 
@@ -75,7 +75,7 @@
                             "Select Leader", new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.LeaderAccount, "", new { @class = "text-danger" })
 
-                    @Html.EditorFor(model => model.LeaderEmailAddress, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                    @Html.EditorFor(model => model.LeaderEmailAddress, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.LeaderEmailAddress, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -211,6 +211,8 @@
                 console.log(AllLeaders2[i]);
                 console.log(AllLeaders2[i].Account + "---" + leaderAcc);
                 if (AllLeaders2[i].Account == leaderAcc) {
+                    console.log(AllLeaders2);
+                    console.log(AllLeaders2[i].EmailAddress);
                     $('input[name="LeaderEmailAddress"]').val(AllLeaders2[i].EmailAddress);
                     break;
                 }
