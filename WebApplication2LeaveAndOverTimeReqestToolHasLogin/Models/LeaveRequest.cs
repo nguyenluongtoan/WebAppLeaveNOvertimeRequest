@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAnnotationsExtensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,9 +14,13 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Models
         public int LeaveRequestID { get; set; }
         public DateTime TimeStamp { get; set; }
         public string Account { get; set; }
+        [DataType(DataType.EmailAddress)]
+        [Email]
         public string EmailAddress { get; set; }
         [Display(Name = "Leader Account")]
         public string LeaderAccount { get; set; }
+        [DataType(DataType.EmailAddress)]
+        [Email]
         [Display(Name = "Leader Email Address")]
         public string LeaderEmailAddress { get; set; }
         [Display(Name = "Leave Date")]
@@ -35,17 +40,6 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Models
         public string LeaderComment { get; set; }
         public string LastEditedByAccount { get; set; }
         public int Month { get; set; }
-        public LeaveRequest()
-        {
-            LeaderAccount = "Xuan";
-            LeaderEmailAddress = "xuan@lqa.com.vn";
-            LeaveDate = DateTime.Now;
-            NoDayOff = 1.0;
-            FullAmPm = 1;
-            TypeOfLeave = "Không phép";
-            ReasonForLeave = "Nghỉ ốm";
-            Status = 0;
-            Month = 1;
-        }
+        
     }
 }

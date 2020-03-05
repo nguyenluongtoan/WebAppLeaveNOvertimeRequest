@@ -1,24 +1,46 @@
-﻿<style>
+﻿<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+<style>
     .table-dark {
         color: #fff;
         background-color: #343a40;
     }
-    .widerThanDad{
-        
-    }
-    .container{
-        width: 1800px;
+
+    .widerThanDad {
     }
 
+    .container {
+        width: 1800px;
+    }
+    table.dataTable tbody tr {
+        background-color: #343a40;
+    }
 </style>
 <div class="widerThanDad">
-    <table class="table table-dark">
+
+    <table id="datable" class="table table-dark">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Account</th>
                 <th scope="col" colspan="3">Nghỉ phép</th>
                 <th scope="col" colspan="3">Nghỉ bù OT(Hour)</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"> </th>
+                <th scope="col"></th>
+                <th scope="col"> </th>
+                <th scope="col"> </th> 
+            </tr>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col"></th>
+                <th scope="col">Số ngày</th>
+                <th scope="col">Đã nghỉ</th>
+                <th scope="col">Còn lại</th>
+                <th scope="col">Số ngày</th>
+                <th scope="col">Đã nghỉ</th>
+                <th scope="col">Còn lại</th>
                 <th scope="col">Nghỉ ốm có giấy BH (30d)</th>
                 <th scope="col">Nghỉ kết hôn (3d)</th>
                 <th scope="col">Nghỉ khám thai (5d)</th>
@@ -26,25 +48,8 @@
                 <th scope="col">Nghỉ chăm con (3-7 tuổi) ốm (15d)</th>
                 <th scope="col">Nghỉ tang (1-3d)</th>
                 <th scope="col">Nghỉ ko lương (30d)</th>
-
-
-            </tr>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col"></th>
-                <th scope="col">Số ngày</th>
-                <th scope="col">Đã nghỉ</th>
-                <th scope="col">Còn lại</th>
-                <th scope="col">Số ngày</th>
-                <th scope="col">Đã nghỉ</th>
-                <th scope="col">Còn lại</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th></th>
+                
             </tr>
         </thead>
         <tbody>
@@ -52,48 +57,62 @@
             @foreach (var item in ViewBag.GetMemberLeaveDays)
             {
 
-                <tr>
-                    <th scope="row">
-                        @iter
-                    </th>
-                    <td>@item.Key</td>
-                    <td>@item.Value</td>
-                    <td>@ViewBag.ANNUAL_LEAVE[iter]</td>
-                    <td>@ViewBag.ANNUAL_LEAVE_OFF[iter]</td>
-                    <td>@ViewBag.GetMemberCOMPESATIVEDays[iter]</td>
-                    <td>@ViewBag.COMPESATIVE_LEAVE[iter]</td>
-                    <td>@ViewBag.COMPESATIVE_LEAVE[iter]</td>
-                    <td>@ViewBag.COMPESATIVE_LEAVE[iter]</td>
-                    <td>@ViewBag.COMPASSTIONATE_LEAVE[iter]</td>
-                    <td>@ViewBag.ENGAGEMENT_LEAVE[iter]</td>
-                    <td>@ViewBag.MATERNITY_3_LEAVE[iter]</td>
-                    <td>@ViewBag.MATERNITY_7_LEAVE[iter]</td>
-                    <td>@ViewBag.OT_LAST_YEAR_LEAVE[iter]</td>
-                    <td>@ViewBag.SICK_LEAVE[iter]</td>
-                    <td>@ViewBag.WITHOUT_PAY_LEAVE[iter]</td>
-                </tr>
+            <tr>
+                <td scope="row">
+                    @iter
+                </td>
+                <td>@item.Key</td>
+                <td>@item.Value</td>
+                <td>@ViewBag.ANNUAL_LEAVE[iter]</td>
+                <td>@ViewBag.ANNUAL_LEAVE_OFF[iter]</td>
+                <td>@ViewBag.GetMemberCOMPESATIVEDays[iter]</td>
+                <td>@ViewBag.COMPESATIVE_LEAVE[iter]</td>
+                
+                @*<td>@ViewBag.COMPESATIVE_LEAVE_OFF[iter]</td>*@
+                                                 
+                <td></td>
+                <td>@ViewBag.SICK_LEAVE[iter]</td>
+                <td>@ViewBag.COMPASSTIONATE_LEAVE[iter]</td>
+                <td>@ViewBag.ENGAGEMENT_LEAVE[iter]</td>
+                <td>@ViewBag.MATERNITY_3_LEAVE[iter]</td>
+                <td>@ViewBag.MATERNITY_7_LEAVE[iter]</td>
+                <td>@ViewBag.OT_LAST_YEAR_LEAVE[iter]</td>
+
+                <td>@ViewBag.WITHOUT_PAY_LEAVE[iter]</td>
+                <td>@ViewBag.COMPESATIVE_LEAVE[iter]</td>
+            </tr>
                 iter++;
             }
             @*<tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>10</td>
-                <td>11</td>
-                <td>12</td>
-                <td>13</td>
-                <td>14</td>
-            </tr>*@
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                    <td>7</td>
+                    <td>8</td>
+                    <td>9</td>
+                    <td>10</td>
+                    <td>11</td>
+                    <td>12</td>
+                    <td>13</td>
+                    <td>14</td>
+                </tr>*@
 
 
         </tbody>
     </table>
 </div>
+
+@section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script>
+        $('#datable').DataTable();
+        console.log(9)
+    </script>
+}

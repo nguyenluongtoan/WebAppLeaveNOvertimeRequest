@@ -1,0 +1,131 @@
+﻿@model IEnumerable<WebApplication2LeaveAndOverTimeReqestToolHasLogin.Models.LeaveRequest>
+
+@{
+    ViewBag.Title = "Index";
+    List<int> ids = ViewBag.OpenRequestIds;
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeStamp)
+        </th>
+        <th>
+            @Html.ActionLink("Account", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeaderAccount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeaderEmailAddress)
+        </th>
+        <th>
+            @Html.ActionLink("Leave Date", "Index", new { sortOrder = ViewBag.DateSortParm })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoDayOff)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullAmPm)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeOfLeave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReasonForLeave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeaderComment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Month)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeStamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Account)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaderAccount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaderEmailAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoDayOff)
+            </td>
+            <td>
+                @{string fullAmPm = "FULL";}
+                @if (item.FullAmPm == 0)
+                {
+                    fullAmPm = "FULL";
+                }
+                else if (item.FullAmPm == 1)
+                {
+                    fullAmPm = "AM";
+                }
+                else if (item.FullAmPm == 2)
+                {
+                    fullAmPm = "PM";
+                }
+                @fullAmPm
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeOfLeave)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReasonForLeave)
+            </td>
+            <td>
+                @{string status = "OPEN";}
+                @if (item.Status == 0)
+                {
+                    fullAmPm = "OPEN";
+                }
+                else if (item.Status == 1)
+                {
+                    fullAmPm = "APPROVED";
+                }
+                else if (item.Status == 2)
+                {
+                    fullAmPm = "REJECTED";
+                }
+                @fullAmPm
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaderComment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Month)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.LeaveRequestID }) |
+                @if ( ids.Contains(item.LeaveRequestID ))
+                {
+                    @Html.ActionLink("Delete", "Delete", new { id = item.LeaveRequestID }) 
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+

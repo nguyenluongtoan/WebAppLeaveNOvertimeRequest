@@ -45,6 +45,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DataAnnotationsExtensions, Version=5.0.1.27, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DataAnnotationsExtensions.5.0.1.27\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.3, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="Google.Apis, Version=1.43.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.1.43.0\lib\net45\Google.Apis.dll</HintPath>
     </Reference>
@@ -64,6 +70,7 @@
       <HintPath>..\packages\Google.Apis.Sheets.v4.1.43.0.1832\lib\net45\Google.Apis.Sheets.v4.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
     <Reference Include="SendGrid, Version=9.12.0.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
       <HintPath>..\packages\Sendgrid.9.12.0\lib\net452\SendGrid.dll</HintPath>
     </Reference>
@@ -86,6 +93,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Security" />
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
       <Private>True</Private>
@@ -237,6 +245,14 @@
     <Compile Include="Migrations\202001150354124_add_leave.Designer.cs">
       <DependentUpon>202001150354124_add_leave.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001160357415_add_last_edit_acc.cs" />
+    <Compile Include="Migrations\202001160357415_add_last_edit_acc.Designer.cs">
+      <DependentUpon>202001160357415_add_last_edit_acc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002230955317_200223.cs" />
+    <Compile Include="Migrations\202002230955317_200223.Designer.cs">
+      <DependentUpon>202002230955317_200223.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -244,6 +260,8 @@
     <Compile Include="Models\LeaveRequest.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositones\AnnualLeave.cs" />
+    <Compile Include="Repositones\CompensativeLeave.cs" />
     <Compile Include="Services\GoogleSheet.cs" />
     <Compile Include="Services\Mail.cs" />
     <Compile Include="Services\Template.cs" />
@@ -256,6 +274,14 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\prime_login_form-web\css\font-awesome.css" />
+    <Content Include="Content\prime_login_form-web\css\style.css" />
+    <Content Include="Content\prime_login_form-web\images\b1.jpg" />
+    <Content Include="Content\prime_login_form-web\images\check.png" />
+    <Content Include="Content\tenis_regis_form-web\css\style.css" />
+    <Content Include="Content\tenis_regis_form-web\images\b1.jpg" />
+    <Content Include="Content\tenis_regis_form-web\images\cal.png" />
+    <Content Include="Content\tenis_regis_form-web\images\cal1.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -263,6 +289,18 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App_Data\LqaLeader.csv" />
+    <Content Include="App_Data\credentials.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\My Project 67047-0ff6009988f1.json" />
+    <Content Include="Content\prime_login_form-web\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\prime_login_form-web\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\prime_login_form-web\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\prime_login_form-web\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\prime_login_form-web\fonts\FontAwesome.otf" />
+    <Content Include="App_Data\Member list 200120.csv" />
+    <Content Include="App_Data\nghiPhep2020.csv" />
+    <Content Include="App_Data\token.json\Google.Apis.Auth.OAuth2.Responses.TokenResponse-user" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -315,6 +353,10 @@
     <Content Include="Views\LeaveRequests\Edit.cshtml" />
     <Content Include="Views\LeaveRequests\Index.cshtml" />
     <Content Include="Views\LeaveRequests\ApproveOrReject.cshtml" />
+    <Content Include="Views\LeaveRequests\Data2019.cshtml" />
+    <Content Include="Views\LeaveRequests\DataSummary.cshtml" />
+    <Content Include="Views\LeaveRequests\Individual.cshtml" />
+    <Content Include="Views\LeaveRequests\IndexHasVue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202001130641447_InitialCreate.resx">
@@ -322,6 +364,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001150354124_add_leave.resx">
       <DependentUpon>202001150354124_add_leave.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001160357415_add_last_edit_acc.resx">
+      <DependentUpon>202001160357415_add_last_edit_acc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002230955317_200223.resx">
+      <DependentUpon>202002230955317_200223.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +385,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

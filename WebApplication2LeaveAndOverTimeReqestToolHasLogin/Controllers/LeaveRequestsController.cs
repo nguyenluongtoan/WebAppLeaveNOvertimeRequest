@@ -65,7 +65,17 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
                     break;
             }
             excelUsed = await leaveRequests.ToListAsync();
+            ViewBag.vueData = await leaveRequests.ToListAsync();
             return View(await leaveRequests.ToListAsync());
+        }
+
+        public async Task<ActionResult> IndexJson(  )
+        { 
+            var leaveRequests = from s in db.LeaveRequests select s; 
+            var data = (await leaveRequests.ToListAsync());
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+
+
         }
         [Authorize(Roles = "Admin,Manager,Employee")]
         public async Task<ActionResult> Individual()
@@ -73,11 +83,19 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
             var leaveRequests = from s in db.LeaveRequests select s;
             leaveRequests = leaveRequests.Where(
                 s => User.Identity.Name.Contains(s.Account));
+            var leaveRequestsInOpen = leaveRequests.Where(s => s.Status == Constants.OPEN).ToList();
+            List<int> ids = new List<int>();
+            foreach(LeaveRequest openR in leaveRequestsInOpen)
+            {
+                ids.Add(openR.LeaveRequestID);
+            }
+            ViewBag.OpenRequestIds = ids;
+
             return View(await leaveRequests.ToListAsync());
         }
         
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Manager,Employee")]
         // GET: LeaveRequests/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -148,7 +166,6 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
                 await db.SaveChangesAsync();
                 await Mail.SendCreatedReqMail2Member(leaveRequest);
                 await Mail.SendCreatedReqMail2Leader(leaveRequest, Constants.LEADER);
-                //return RedirectToAction("Index");
                 return RedirectToAction("Contact", "Home");
 
             }
@@ -164,7 +181,12 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             LeaveRequest leaveRequest = await db.LeaveRequests.FindAsync(id);
+            
             ViewBag.AllLeaders = Utils.Csv.GetLeaderAccount();
+            ViewBag.AllLeaders2 = Utils.Csv.GetLeaderInfo();
+            ViewBag.AllMembers = Utils.Csv.GetMemberAccount();
+            ViewBag.Type = new int[3] { 1, 2, 3 };
+            ViewBag.AllowCompensativeLeave = true;
             if (leaveRequest == null)
             {
                 return HttpNotFound();
@@ -384,34 +406,43 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
 
             return View();
         }
-    
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult> DataSummary()
         {
             List<KeyValuePair<string, int>> keyValuePairs = Utils.Csv.GetMemberLeaveDays();
             int keyValuePairsCount = keyValuePairs.Count;
             ViewBag.GetMemberLeaveDays = keyValuePairs;
             var leaveRequests = from s in db.LeaveRequests select s;
+            var list = leaveRequests.ToList();
+            foreach(LeaveRequest lv in list )
+            {
+                int t = 0;
+            }
             
             int[] CountANNUAL_LEAVE = new int[keyValuePairsCount];
             int[] CountANNUAL_LEAVE_OFF = new int[keyValuePairsCount];
 
-            int[] CountCOMPESATIVE_LEAVE = new int[keyValuePairsCount];
+            double[] CountCOMPESATIVE_LEAVE = new double[keyValuePairsCount];
             double[] CountCOMPESATIVE_LEAVE_OFF = new double[keyValuePairsCount];
             double[] memberOtHours = new double[keyValuePairsCount];
 
-             
-            int[] CountCOMPASSTIONATE_LEAVE = new int[keyValuePairsCount]; ;
-            int[] CountENGAGEMENT_LEAVE = new int[keyValuePairsCount]; ;
-            int[] CountMATERNITY_3_LEAVE = new int[keyValuePairsCount]; ;
-            int[] CountMATERNITY_7_LEAVE = new int[keyValuePairsCount]; ;
-            int[] CountOT_LAST_YEAR_LEAVE = new int[keyValuePairsCount]; ;
-            int[] CountSICK_LEAVE = new int[keyValuePairsCount]; ;
-            int[] CountWITHOUT_PAY_LEAVE = new int[keyValuePairsCount]; ;
+
+            double[] CountCOMPASSTIONATE_LEAVE = new double[keyValuePairsCount]; ;
+            double[] CountENGAGEMENT_LEAVE = new double[keyValuePairsCount]; ;
+            double[] CountMATERNITY_3_LEAVE = new double[keyValuePairsCount]; ;
+            double[] CountMATERNITY_7_LEAVE = new double[keyValuePairsCount]; ;
+            double[] CountOT_LAST_YEAR_LEAVE = new double[keyValuePairsCount]; ;
+            double[] CountSICK_LEAVE = new double[keyValuePairsCount]; ;
+            double[] CountWITHOUT_PAY_LEAVE = new double[keyValuePairsCount]; ;
 
             int iANNUAL_LEAVE = 0;
             foreach (KeyValuePair<string, int> keyValuePair in keyValuePairs)
             {
                 string account = keyValuePair.Key;
+                if(account == "Hai")
+                {
+                    int t = 0;
+                }
                 CountANNUAL_LEAVE[iANNUAL_LEAVE] = 
                 leaveRequests.Where(s => s.Account == keyValuePair.Key &&
                     s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.ANNUAL_LEAVE
@@ -420,41 +451,31 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
                 memberOtHours[iANNUAL_LEAVE] = CompensativeLeave.Instance.
                     GetNoCompensativeLeaveDay(keyValuePair.Key);
 
-                CountCOMPESATIVE_LEAVE[iANNUAL_LEAVE] =
-                leaveRequests.Where(s => s.Account == keyValuePair.Key &&
-                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.COMPESATIVE_LEAVE
-                ).Count();
+                CountCOMPESATIVE_LEAVE[iANNUAL_LEAVE] = CompensativeLeave.Instance
+                    .GetCountLeaveByAccount(TYPE_OF_LEAVE_REQUEST.COMPESATIVE_LEAVE, account);
                 CountANNUAL_LEAVE_OFF[iANNUAL_LEAVE] = keyValuePair.Value - CountANNUAL_LEAVE[iANNUAL_LEAVE];
                 CountCOMPESATIVE_LEAVE_OFF[iANNUAL_LEAVE] = memberOtHours[iANNUAL_LEAVE] - CountCOMPESATIVE_LEAVE[iANNUAL_LEAVE];
 
-                CountCOMPASSTIONATE_LEAVE[iANNUAL_LEAVE] = leaveRequests.Where(s =>
-                    s.Account == account &&
-                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.COMPASSTIONATE_LEAVE
-                    ).Count();
-                CountENGAGEMENT_LEAVE[iANNUAL_LEAVE] = leaveRequests.Where(s =>
-                    s.Account == account &&
-                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.ENGAGEMENT_LEAVE
-                    ).Count();
-                CountMATERNITY_3_LEAVE[iANNUAL_LEAVE] = leaveRequests.Where(s =>
-                    s.Account == account &&
-                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.MATERNITY_3_LEAVE
-                    ).Count();
-                CountMATERNITY_7_LEAVE[iANNUAL_LEAVE] = leaveRequests.Where(s =>
-                    s.Account == account &&
-                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.MATERNITY_7_LEAVE
-                    ).Count();
-                CountOT_LAST_YEAR_LEAVE[iANNUAL_LEAVE] = leaveRequests.Where(s =>
-                    s.Account == account &&
-                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.OT_LAST_YEAR_LEAVE
-                    ).Count();
-                CountSICK_LEAVE[iANNUAL_LEAVE] = leaveRequests.Where(s =>
-                    s.Account == account &&
-                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.SICK_LEAVE
-                    ).Count();
-                CountWITHOUT_PAY_LEAVE[iANNUAL_LEAVE] = leaveRequests.Where(s =>
-                    s.Account == account &&
-                    s.TypeOfLeave == TYPE_OF_LEAVE_REQUEST.WITHOUT_PAY_LEAVE
-                    ).Count();
+                CountCOMPASSTIONATE_LEAVE[iANNUAL_LEAVE] = CompensativeLeave.Instance
+                    .GetCountLeaveByAccount(TYPE_OF_LEAVE_REQUEST.COMPASSTIONATE_LEAVE, account);
+               
+                CountENGAGEMENT_LEAVE[iANNUAL_LEAVE] = CompensativeLeave.Instance
+                    .GetCountLeaveByAccount(TYPE_OF_LEAVE_REQUEST.ENGAGEMENT_LEAVE, account);
+                
+                CountMATERNITY_3_LEAVE[iANNUAL_LEAVE] = CompensativeLeave.Instance
+                    .GetCountLeaveByAccount(TYPE_OF_LEAVE_REQUEST.MATERNITY_3_LEAVE, account);
+                
+                CountMATERNITY_7_LEAVE[iANNUAL_LEAVE] = CompensativeLeave.Instance
+                    .GetCountLeaveByAccount(TYPE_OF_LEAVE_REQUEST.MATERNITY_7_LEAVE, account);
+                
+                CountOT_LAST_YEAR_LEAVE[iANNUAL_LEAVE] = CompensativeLeave.Instance
+                    .GetCountLeaveByAccount(TYPE_OF_LEAVE_REQUEST.OT_LAST_YEAR_LEAVE, account);
+                
+                CountSICK_LEAVE[iANNUAL_LEAVE] = CompensativeLeave.Instance
+                    .GetCountLeaveByAccount(TYPE_OF_LEAVE_REQUEST.SICK_LEAVE, account);
+                
+                CountWITHOUT_PAY_LEAVE[iANNUAL_LEAVE] = CompensativeLeave.Instance
+                    .GetCountLeaveByAccount(TYPE_OF_LEAVE_REQUEST.WITHOUT_PAY_LEAVE, account);
 
                 iANNUAL_LEAVE++;
 
@@ -472,6 +493,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Controllers
 
             ViewBag.COMPESATIVE_LEAVE = CountCOMPESATIVE_LEAVE;
             ViewBag.COMPASSTIONATE_LEAVE = CountCOMPASSTIONATE_LEAVE;
+            ViewBag.COMPESATIVE_LEAVE_OFF = CountCOMPESATIVE_LEAVE_OFF;
             ViewBag.ENGAGEMENT_LEAVE = CountENGAGEMENT_LEAVE;
             ViewBag.MATERNITY_3_LEAVE = CountMATERNITY_3_LEAVE;
             ViewBag.MATERNITY_7_LEAVE = CountMATERNITY_7_LEAVE;

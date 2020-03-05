@@ -1,0 +1,163 @@
+﻿@model IEnumerable<WebApplication2LeaveAndOverTimeReqestToolHasLogin.Models.LeaveRequest>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    @*@Html.ActionLink("Test New", "Test")*@
+</p>
+<div class="col-md-4">
+    @using (Html.BeginForm())
+    {
+        <p>
+            Find member by name or email: @Html.TextBox("SearchMemString")
+            <input type="submit" value="Search" />
+        </p>
+    }
+</div>
+<div class="col-md-4">
+    @using (Html.BeginForm())
+    {
+        <p>
+            Find leader by name or email: @Html.TextBox("SearchLeadString")
+            <input type="submit" value="Search" />
+        </p>
+    }
+</div>
+<br />
+@Html.ActionLink("Export to excel", "Export2Excel")
+
+<div id="watch-example">
+        <input v-model="query" />
+        <table>
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Account)
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EmailAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LeaderAccount)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.LeaveDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NoDayOff)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FullAmPm)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TypeOfLeave)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReasonForLeave)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LeaderComment)
+                </th>
+
+                <th></th>
+            </tr>
+            <tr v-for="item in answer">
+
+                <td>{{ item.Account }}</td>
+                <td>
+                    {{ item.EmailAddress }}
+                </td>
+                <td>
+                    {{ item.LeaderAccount }}
+                </td>
+                <td>
+                    {{ item.LeaveDate }}
+                </td>
+                <td>
+                    {{ item.NoDayOff }}
+                </td>
+                <td>
+                    {{ item.FullAmPm }}
+                </td>
+                <td>
+                    {{ item.TypeOfLeave }}
+                </td>
+                <td>
+                    {{ item.ReasonForLeave }}
+                </td>
+                <td>
+                    {{ item.Status }}
+                </td>
+                <td>
+                    {{ item.LeaderComment }}
+                </td>
+            </tr>
+        </table>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+    <script type="text/javascript">
+        var watchExampleVM = new Vue({
+            el: '#watch-example',
+            data: {
+                query: '',
+                answer: 'Không thể trả lời nếu bạn chưa đặt câu hỏi!'
+            },
+            methods: {
+                getAnswer: _.debounce(
+                    function () {
+                        var vm = this
+                        axios.get('https://localhost:44392/LeaveRequests/indexJson')
+                            .then(function (response) {
+                                vm.answer = (response.data.data)
+                                console.log(vm.answer)
+                            })
+                            .catch(function (error) {
+                                vm.answer = 'Lỗi! Không thể truy cập API. ' + error
+                            })
+                    },
+                    // Đây là thời gian (đơn vị mili giây) chúng ta đợi người dùng dừng gõ.
+                    //500
+                    5
+                ),
+                beforeEnter: function (el) {
+                    console.log('beforeEnter: function (el) {')
+                   
+                },
+                enter: function (el, done) {
+                    console.log('enter: function (el, done) {')
+                   
+                },
+                leave: function (el, done) {
+                    console.log('leave: function (el, done) {')
+                    
+                },
+            },
+            created: function () {
+                console.log('created: function () {')
+                this.getAnswer()
+            },
+            computed: {
+                filterData: function () {
+                    var vm = this
+                    return this.list.filter(function (item) {
+                        return item.Account.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1
+                    })
+                }
+            }
+        })
+    </script>
+}

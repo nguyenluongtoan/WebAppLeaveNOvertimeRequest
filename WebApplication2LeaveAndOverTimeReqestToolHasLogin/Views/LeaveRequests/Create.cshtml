@@ -1,4 +1,28 @@
-﻿@model WebApplication2LeaveAndOverTimeReqestToolHasLogin.Models.LeaveRequest
+﻿<!--A Design by W3layouts
+  Author: W3layout
+  Author URL: http://w3layouts.com
+  License: Creative Commons Attribution 3.0 Unported
+  License URL: http://creativecommons.org/licenses/by/3.0/
+
+
+  <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title> Tennis Online Register Form a Flat Responsive Widget Template :: w3layouts </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta  charset="utf-8" />
+    <meta name="keywords" content=" Tennis Online Register Form Form Responsive Widget, Audio and Video players, Login Form Web Template, Flat Pricing Tables, Flat Drop-Downs, Sign-Up Web Templates, Flat Web Templates, Login Sign-up Responsive Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design"
+      />
+
+  </head>
+  <body>
+  -->
+<!--
+<h1 class="header-w3ls">
+      Tennis Online Register
+    </h1>
+    -->
+@model WebApplication2LeaveAndOverTimeReqestToolHasLogin.Models.LeaveRequest
 @using WebApplication2LeaveAndOverTimeReqestToolHasLogin.Utils
 @{
     ViewBag.Title = "Create";
@@ -20,179 +44,220 @@
         Text = "PM",
         Value = "2"
     });
-
+   
 
 }
 
 <style>
-    .nopadding{
-        padding: 0  ;
-        margin: 0  ;
+    .nopadding {
+        padding: 0;
+        margin: 0;
+    }
+    a {
+        color:#eee;
+
+    }
+    #LeaderEmailAddress, #LeaveDate, #NoDayOff {
+        width: 100%;
+        padding-left: 0px;
+        color: #fff;
+        outline: none;
+        font-size: 20px;
+        padding: .7em 1em .8em 0em;
+        border: none;
+        border-bottom: 1px solid #ffffff;
+        margin: 0px 0px 16px;
+        display: inline-block;
+        background: none;
+        letter-spacing: 2px;
+        transition: all 0.5s ease-in-out;
+        -webkit-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out;
+        -ms-transition: all 0.5s ease-in-out;
+        box-sizing: border-box;
+    }
+    div.btnn input{
+        max-width: none;
+    }
+    input[type="radio"] {
+     
+    }
+    .form-left-w3l, .form-right-w3ls{
+        color:#eee;
     }
 </style>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+<script>
+    addEventListener("load", function () { setTimeout(hideURLbar, 0); }, false); function hideURLbar() { window.scrollTo(0, 1); }
+</script>
+<!-- Meta tags -->
+<!--stylesheets
+<link href="css/style.css" rel='stylesheet' type='text/css' media="all">
 
-    <div class="form-horizontal">
-        <h4>LeaveRequest</h4>
-        <h6>
-            Please submit the times you need to take off work and the type of leave you are taking.
-        </h6>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    -->
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
-        </div>
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-10">
-
-            <a href="#" onclick="addTailEmail('gmail')">using .lqa@gmail.com</a> or <a href="#" onclick="addTailEmail('lqa')">using mail@lqa.com.vn</a>
-        </div>
-
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+<link href="~/Content/tenis_regis_form-web/css/style.css" rel="stylesheet" />
+<!--//style sheet end here-->
+<link href="//fonts.googleapis.com/css?family=Saira+Condensed:400,500,600,700" rel="stylesheet">
+<div class="online-w3l-form">
+    <div class="main-headder">
+        <div class="address-agile">
+            <div class="using-address">
+                <p class="form-details">Date</p>
+                <span class="details-list">: @DateTime.Now.ToString("MMMM dd")</span>
+            </div>
+            <div class="using-address">
+                <p class="form-details">Time</p>
+                <span class="details-list">: @DateTime.Now.ToString("HH:mm")</span>
+            </div>
+            <div class="using-address">
+                <p class="form-details">Address</p>
+                <span class="details-list">: 14th Fl, MD Complex,
+68 Nguyen Co Thach Street
+                </span>
             </div>
         </div>
+        <div class="map-grid">
+            <h2> Location</h2>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LeaderAccount, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="col-md-5 nopadding">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.9672844673883!2d105.76313531633674!3d21.033994992972055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454b945d9b723%3A0x7e3250aa2df8982a!2sLotus%20Quality%20Assurance%20(Lotus%20QA)!5e0!3m2!1sen!2s!4v1580724671458!5m2!1sen!2s" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+
+        </div>
+    </div>
+    <div class="appointment-w3">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <!-- <form action="#" method="post"> -->
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="main">
+                <div class="form-left-w3l">
+                    <!-- <input type="text" class="top-up" name="name" placeholder="Name" required=""> -->
+                    @Html.EditorFor(model => model.Account, new { htmlAttributes = new { placeholder = "Account", @class = "top-up" } })
+
+                    @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+                    <br />
+                    <a href="#" onclick="addTailEmail('gmail')">using .lqa@gmail.com</a> or <a href="#" onclick="addTailEmail('lqa')">using mail@lqa.com.vn</a>
+                </div>
+                <div class="form-right-w3ls ">
+                    <!-- <input type="text" class="top-up" name="last name" placeholder="Last Name" required=""> -->
                     @Html.DropDownListFor(model => model.LeaderAccount,
-                            new SelectList(ViewBag.AllLeaders),
-                            "Select Leader", new { htmlAttributes = new { @class = "form-control" } })
+                                  new SelectList(ViewBag.AllLeaders),
+                                  "Select Leader", new { @class = "form-control buttom" })
                     @Html.ValidationMessageFor(model => model.LeaderAccount, "", new { @class = "text-danger" })
-
-                    @Html.EditorFor(model => model.LeaderEmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="main">
+                <div class="form-left-w3l">
+                    <!--               <input type="email" name="email" placeholder="Email" required=""> -->
+                    @Html.EditorFor(model => model.EmailAddress,
+                    new { htmlAttributes = new { placeholder = "Email", @class = "" } })
+                    @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-right-w3ls ">
+                    <!-- <input class="buttom" type="text" name="phone number" placeholder="Phone Number" required=""> -->
+                    @Html.EditorFor(model => model.LeaderEmailAddress,
+                    new { htmlAttributes = new { placeholder = "Leader Email", @class = "" } })
                     @Html.ValidationMessageFor(model => model.LeaderEmailAddress, "", new { @class = "text-danger" })
+                    <div class="clearfix"></div>
                 </div>
             </div>
 
+            <div class="main">
+                <div class="form-left-w3l">
+                    <!-- <input type="text" name="city" placeholder="City" required=""> -->
+                    @Html.EditorFor(model => model.LeaveDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LeaveDate, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-right-w3ls ">
+                    <!--
+                <input type="text" name="state" placeholder="State" required="">
+                -->
+
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.NoDayOff, new { htmlAttributes = new { placeholder = "No Day Of", @class = "form-control", type = "number", min = "0", step = "0.25" } })
+                        @Html.ValidationMessageFor(model => model.NoDayOff, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(model => model.FullAmPm,
+                       listItems,
+                       "Select Type", new { @class = "form-control buttom" })
+                        @Html.ValidationMessageFor(model => model.FullAmPm, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="main">
+                <div class="form-left-w3l">
+
+                    <!-- <input type="text" name="Pin code" placeholder="Pin code" required=""> -->
+                    @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.SICK_LEAVE)
+                    @TYPE_OF_LEAVE_REQUEST.SICK_LEAVE<br />
+                    @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.ANNUAL_LEAVE)
+                    @TYPE_OF_LEAVE_REQUEST.ANNUAL_LEAVE<br />
+                    @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.COMPESATIVE_LEAVE)
+                    @TYPE_OF_LEAVE_REQUEST.COMPESATIVE_LEAVE<br />
+                    @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.OT_LAST_YEAR_LEAVE)
+                    @TYPE_OF_LEAVE_REQUEST.OT_LAST_YEAR_LEAVE<br />
+                    @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.WITHOUT_PAY_LEAVE)
+                    @TYPE_OF_LEAVE_REQUEST.WITHOUT_PAY_LEAVE<br />
+                    @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.COMPASSTIONATE_LEAVE)
+                    @TYPE_OF_LEAVE_REQUEST.COMPASSTIONATE_LEAVE<br />
+                    @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.ENGAGEMENT_LEAVE)
+                    @TYPE_OF_LEAVE_REQUEST.ENGAGEMENT_LEAVE<br />
+                    @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.MATERNITY_3_LEAVE)
+                    @TYPE_OF_LEAVE_REQUEST.MATERNITY_3_LEAVE<br />
+                    @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.MATERNITY_7_LEAVE)
+                    @TYPE_OF_LEAVE_REQUEST.MATERNITY_7_LEAVE<br />
+                </div>
+                <div class="form-right-w3ls">
+                    @Html.RadioButtonFor(model => model.ReasonForLeave, "Bereavement leave (Immediate Family) - Gia đình có việc gấp")
+                    Bereavement leave (Immediate Family) - Gia đình có việc gấp<br />
+                    @Html.RadioButtonFor(model => model.ReasonForLeave, "Personal leave (Việc cá nhân ko tiện tiết lộ)")
+                    Personal leave (Việc cá nhân ko tiện tiết lộ)<br />
+                    @Html.RadioButtonFor(model => model.ReasonForLeave, "Travelling")
+                    Travelling<br />
+                    @Html.RadioButtonFor(model => model.ReasonForLeave, "Sickness")
+                    Sickness<br />
+                    @Html.RadioButtonFor(model => model.ReasonForLeave, "Other")
+                    Other<br />
+                    <!-- <select class="form-control buttom">
+      <option value="">
+        Select Country
+      </option>
+      <option value="category2">Oman</option>
+      <option value="category1">Australia</option>
+      <option value="category3">America</option>
+      <option value="category3">London</option>
+      <option value="category3">Goa</option>
+      <option value="category3">Canada</option>
+      <option value="category3">Srilanka</option>
+    </select> -->
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!--
+        <div class="form-control-w3l">
+            <textarea name="Message" placeholder="Any Message..."></textarea>
         </div>
+        -->
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LeaveDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LeaveDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LeaveDate, "", new { @class = "text-danger" })
+            <div class="btnn">
+                <input type="submit" value="Register">
             </div>
-        </div>
+            <!-- </form> -->
+        }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.NoDayOff, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NoDayOff, new { htmlAttributes = new { @class = "form-control", type = "number", min = "0", step = "0.25" } })
-                @Html.ValidationMessageFor(model => model.NoDayOff, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.FullAmPm, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.FullAmPm,
-                 new SelectList(ViewBag.Type),
-                        "Select Type", new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FullAmPm, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-10">
-                Full-1; AM-2; PM-3
-            </div>
-        </div>*@
-        <div class="form-group">
-            @Html.LabelFor(model => model.FullAmPm, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.FullAmPm,
-                 listItems,
-                        "Select Type", new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FullAmPm, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TypeOfLeave, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.TypeOfLeave, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TypeOfLeave, "", new { @class = "text-danger" })*@
-
-                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.SICK_LEAVE)
-                @TYPE_OF_LEAVE_REQUEST.SICK_LEAVE<br />
-                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.ANNUAL_LEAVE)
-                @TYPE_OF_LEAVE_REQUEST.ANNUAL_LEAVE<br />
-                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.COMPESATIVE_LEAVE)
-                @TYPE_OF_LEAVE_REQUEST.COMPESATIVE_LEAVE<br />
-                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.OT_LAST_YEAR_LEAVE)
-                @TYPE_OF_LEAVE_REQUEST.OT_LAST_YEAR_LEAVE<br />
-                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.WITHOUT_PAY_LEAVE)
-                @TYPE_OF_LEAVE_REQUEST.WITHOUT_PAY_LEAVE<br />
-                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.COMPASSTIONATE_LEAVE)
-                @TYPE_OF_LEAVE_REQUEST.COMPASSTIONATE_LEAVE<br />
-                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.ENGAGEMENT_LEAVE)
-                @TYPE_OF_LEAVE_REQUEST.ENGAGEMENT_LEAVE<br />
-                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.MATERNITY_3_LEAVE)
-                @TYPE_OF_LEAVE_REQUEST.MATERNITY_3_LEAVE<br />
-                @Html.RadioButtonFor(model => model.TypeOfLeave, TYPE_OF_LEAVE_REQUEST.MATERNITY_7_LEAVE)
-                @TYPE_OF_LEAVE_REQUEST.MATERNITY_7_LEAVE<br />
-                @if (!ViewBag.AllowCompensativeLeave)
-                {
-                    <span class="text-danger field-validation-error" data-valmsg-for="" data-valmsg-replace="">
-                        <span id="" class="">Quá ngày nghỉ bù.</span>
-                    </span>
-                }
-                @*@if (!ViewBag.AllowAnnualLeave)
-                {
-                    <span class="text-danger field-validation-error" data-valmsg-for="" data-valmsg-replace="">
-                        <span id="" class="">Quá ngày nghỉ phép.</span>
-                    </span>
-                }*@
-
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ReasonForLeave, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.ReasonForLeave, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ReasonForLeave, "", new { @class = "text-danger" })*@
-                @Html.RadioButtonFor(model => model.ReasonForLeave, "Bereavement leave (Immediate Family) - Gia đình có việc gấp")
-                Bereavement leave (Immediate Family) - Gia đình có việc gấp<br />
-                @Html.RadioButtonFor(model => model.ReasonForLeave, "Personal leave (Việc cá nhân ko tiện tiết lộ)")
-                Personal leave (Việc cá nhân ko tiện tiết lộ)<br />
-                @Html.RadioButtonFor(model => model.ReasonForLeave, "Travelling")
-                Travelling<br />
-                @Html.RadioButtonFor(model => model.ReasonForLeave, "Sickness")
-                Sickness<br />
-                @Html.RadioButtonFor(model => model.ReasonForLeave, "Other")
-                Other<br />
-            </div>
-        </div>
-
-
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+<div class="copy">
+    <p>All Rights Reserved | Design by <a href="http://www.W3Layouts.com" target="_blank">W3Layouts</a></p>
+</div>
+<!--  </body>
+</html> -->
 
 @section Scripts {
     @*<script src="@Url.Content("~/Scripts/custom.js")"></script>*@
@@ -243,7 +308,7 @@
             if (type == 'lqa') {
                 $('#EmailAddress').val(current + '@@lqa.com.vn');
             }
-            
+
         }
 
     </script>

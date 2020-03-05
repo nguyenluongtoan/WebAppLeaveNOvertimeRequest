@@ -18,10 +18,12 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services
         static SmtpClient client;
         static string plainTextContent = "and easy to do anywhere, even with C#";
         static MailAddress from;
+        static bool flagNoSendingEmail = false;
         static void Init()
         {
+            flagNoSendingEmail = true;
             //client = new SendGridClient(apiKey);
-            Template.Prefix = Constants.DATALQA_PUBLISHED;
+            Template.Prefix = Constants.LOCALHOST_PUBLISHED;
             from = new MailAddress("toannl@lqa.com.vn", "LQA System");
             string fromPassword = "HHH432qa2$jk";
             
@@ -60,7 +62,15 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services
                     message.Body = htmlContent;
                     message.IsBodyHtml = true;
                     message.Subject = subject;
-                    client.Send(message);
+                    if (flagNoSendingEmail)
+                    {
+
+                    }
+                    else
+                    {
+                        client.Send(message);
+                    }
+                    
                 }
             }
             catch (Exception e)
@@ -84,7 +94,14 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services
                     message.Body = Template.Leave(leaveRequest);
                     message.IsBodyHtml = true;
                     message.Subject = subject;
-                    client.Send(message);
+                    if (flagNoSendingEmail)
+                    {
+
+                    }
+                    else
+                    {
+                        client.Send(message);
+                    }
                 }
             }
             catch (Exception e)
@@ -129,7 +146,14 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services
                     message.IsBodyHtml = true;
                     message.Subject = "[LQA][HR][Leave Request] " + leaveRequest.Account.ToUpper() + " xin phép vắng mặt ngày " +
                 leaveRequest.LeaveDate.Day + "/" + leaveRequest.LeaveDate.Month + "/" + leaveRequest.LeaveDate.Year;
-                    client.Send(message);
+                    if (flagNoSendingEmail)
+                    {
+
+                    }
+                    else
+                    {
+                        client.Send(message);
+                    }
                 }
             }
             catch (Exception e)
@@ -189,7 +213,14 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services
                     message.IsBodyHtml = true;
                     message.Subject = "[LQA][HR][Leave Request] " + leaveRequest.Account.ToUpper() + " xin phép vắng mặt ngày " +
                 leaveRequest.LeaveDate.Day + "/" + leaveRequest.LeaveDate.Month + "/" + leaveRequest.LeaveDate.Year;
-                    client.Send(message);
+                    if (flagNoSendingEmail)
+                    {
+
+                    }
+                    else
+                    {
+                        client.Send(message);
+                    }
                 }
             }
             catch (Exception e)
@@ -197,6 +228,34 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services
                 string g = e.Message;
             }
 
+        }
+
+        public static async Task SendActiveCode2ResetPass(string email, string code, string url)
+        {
+            Init();
+            var htmlContent = Template.ForgotPass(email, code, url);
+            var to = new MailAddress(email);
+            try
+            {
+                using (var message = new MailMessage(from, to))
+                {
+                    message.Body = htmlContent;
+                    message.IsBodyHtml = true;
+                    message.Subject = "[LQA][Leave Request][Reset Pass] " + DateTime.Now;
+                    if (flagNoSendingEmail)
+                    {
+
+                    }
+                    else
+                    {
+                        client.Send(message);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                string g = e.Message;
+            }
         }
        
        

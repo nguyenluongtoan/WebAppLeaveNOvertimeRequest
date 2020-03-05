@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebApplication2LeaveAndOverTimeReqestToolHasLogin.Models;
 using WebApplication2LeaveAndOverTimeReqestToolHasLogin.Services;
 
 namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Repositones
@@ -14,6 +15,7 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Repositones
         {
             Init();
         }
+        private ApplicationDbContext db = new ApplicationDbContext();
         private static CompensativeLeave instance = null;
         public static CompensativeLeave Instance
         {
@@ -114,6 +116,22 @@ namespace WebApplication2LeaveAndOverTimeReqestToolHasLogin.Repositones
                 return true;
             }
             return false;
+        }
+
+        public double GetCountLeaveByAccount(string typeOfLeave, string account)
+        {
+            var leaveRequests = from s in db.LeaveRequests select s;
+            //if (!account.Contains("lqa.com.vn"))
+            //{
+            //    account += "@lqa.com.vn";
+            //}
+            var list = leaveRequests.Where(s => s.Account == account && s.TypeOfLeave == typeOfLeave).ToList();
+            double count = 0;
+            foreach(LeaveRequest leaveRequest in list)
+            {
+                count += leaveRequest.NoDayOff;
+            }
+            return count;
         }
     }
 

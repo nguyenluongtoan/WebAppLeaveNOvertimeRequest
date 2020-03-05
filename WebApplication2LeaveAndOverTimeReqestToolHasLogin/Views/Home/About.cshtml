@@ -5,3 +5,102 @@
 <h3>@ViewBag.Message</h3>
 
 <p>Use this area to provide additional information.</p>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<div id="app">
+
+    <textarea v-model="message"></textarea>
+    <p v-html="messageOutput"></p>
+    <button v-on:click="reverseMessage">Reverse Message</button>
+    <p v-html="table"></p>
+    <button v-on:click="fillTable">Fill Table</button>
+</div>
+
+
+
+
+@section Scripts {
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'qua lại khách chờ sông lặng sóng',
+                messageOutput: '',
+                letters: [
+                    'あ', 'い', 'う', 'え', 'お', 'か', 'き', 'く', 'け', 'こ',
+                    'さ', 'し', 'す', 'せ', 'そ', 'た', 'ち', 'つ', 'て', 'と',
+                    'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'へ', 'ほ',
+                    'ま', 'み', 'む', 'め', 'も', 'ら', 'り', 'る', 'れ', 'ろ',
+                    'や', 'ii', 'ゆ', 'ii', 'よ',
+                    'わ', 'ii', 'ii', 'ii', 'を', 'ん'
+                ],
+                pronoun: [
+                    'a', 'i', 'u', 'e', 'o',
+                    'ka', 'ki', 'ku', 'ke', 'ko',
+                    'sa', 'si', 'su', 'se', 'so',
+                    'ta', 'chi', 'tsu', 'te', 'to',
+                    'na', 'ni', 'nu', 'ne', 'no',
+                    'ha', 'hi', 'fu', 'he', 'ho',
+                    'ma', 'mi', 'mu', 'me', 'mo',
+                    'ra', 'ri', 'ru', 're', 'ro',
+                    'ya', 'ii', 'yu', 'ii', 'yo',
+                    'wa', 'ii', 'ii', 'ii', 'wo', 'n'
+                ],
+                colors: [
+                    'FF0000',
+                    'FFFF00',
+                    '00FF00',
+                    '00FFFF',
+                    '0000FF',
+                    'FF00FF',
+                ],
+                partOfSpeech: [
+
+                ],
+                table:'',
+            },
+            created: function () {
+                // `this` trỏ đến đối tượng Vue hiện hành
+                console.log('giá trị của a là ' + this.a)
+              },
+            methods: {
+                fillTable: function () {
+                    var row = '<tr>';
+                    for (var i = 0; i < this.letters.length; i++) {
+                        var td = '<td>' + this.letters[i] + '</td>'
+                        if (this.letters[i] == 'ii') {
+                            td = '<td></td>'
+                        }
+                        row += td
+                        
+                        if (i % 5 == 4) {
+                            console.log(i)
+                            console.log(this.letters[i])
+                            row += '</tr><tr>'
+                        }
+                        
+                    }
+                    row += '</tr>'
+                    this.table = '<table>' + row + '</table>' 
+                    console.log(this.table)
+                },
+                reverseMessage: function () {
+                    this.message = this.message.split(' ')
+                    this.message = this.message.reverse().join(' ')
+                    this.messageOutput = '<h1>' + this.message + '</h1>'
+                },
+                removingArrayItemsByValueUsingSplice: function (arr, val) {
+                    for( var i = 0; i < arr.length; i++){ 
+                       if ( arr[i] === val) {
+                         arr.splice(i, 1); 
+                       }
+                    }
+                }
+
+            }
+        })
+
+
+    </script>
+}

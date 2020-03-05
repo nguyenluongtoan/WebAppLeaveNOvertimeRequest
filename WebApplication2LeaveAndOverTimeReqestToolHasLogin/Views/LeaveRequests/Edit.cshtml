@@ -7,18 +7,18 @@
     listItems.Add(new SelectListItem
     {
         Text = "Full",
-        Value = "1"
+        Value = "0"
     });
     listItems.Add(new SelectListItem
     {
         Text = "AM",
-        Value = "2",
+        Value = "1",
         Selected = true
     });
     listItems.Add(new SelectListItem
     {
         Text = "PM",
-        Value = "3"
+        Value = "2"
     });
 
     List<SelectListItem> listStatus = new List<SelectListItem>();
@@ -38,8 +38,21 @@
         Value = "2"
     });
 }
+<style>
+    .shorter {
+        width: 80px;
+        padding: 0;
+    }
 
-<h2>Edit</h2>
+    .shprter {
+        width: 200px;
+    }
+
+    .form-control {
+        display: inline;
+    }
+</style>
+<h3>Edit</h3>
 
 
 @using (Html.BeginForm())
@@ -47,7 +60,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>LeaveRequest</h4>
+        
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.LeaveRequestID)
@@ -65,16 +78,13 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
                 @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
             </div>
+
         </div>
+
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.LeaderAccount, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -83,22 +93,30 @@
                         new SelectList(ViewBag.AllLeaders),
                         "Select Leader", new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LeaderAccount, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LeaderEmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
                 @Html.EditorFor(model => model.LeaderEmailAddress, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LeaderEmailAddress, "", new { @class = "text-danger" })
             </div>
         </div>
 
+
         <div class="form-group">
             @Html.LabelFor(model => model.LeaveDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.LeaveDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LeaveDate, "", new { @class = "text-danger" })
+                <div class="col-md-2 shorter">
+                    @{
+                        var year = Model.LeaveDate.Year;
+                        var month = Model.LeaveDate.Month;
+                        var day = Model.LeaveDate.Day;
+
+                    }
+                    @day  / @month  / @year
+                </div>
+                <div class="col-md-3 shprter">
+                    @Html.EditorFor(model => model.LeaveDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LeaveDate, "", new { @class = "text-danger" })
+                </div>
+
+
             </div>
         </div>
 
@@ -209,4 +227,54 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script>
+        var AllLeaders2 = @Html.Raw(Json.Encode(ViewBag.AllLeaders2));
+        $('select[name="LeaderAccount"]').change(function () {
+            var optionSelected = $('select[name="LeaderAccount"]', this);
+            var leaderAcc = this.value;
+
+            for (var i = 0; i < AllLeaders2.length; i++) {
+                console.log(AllLeaders2[i]);
+                console.log(AllLeaders2[i].Account + "---" + leaderAcc);
+                if (AllLeaders2[i].Account == leaderAcc) {
+                    console.log(AllLeaders2);
+                    console.log(AllLeaders2[i].EmailAddress);
+                    $('input[name="LeaderEmailAddress"]').val(AllLeaders2[i].EmailAddress);
+                    break;
+                }
+            }
+        });
+
+        $(function () {
+            var availableTags = @Html.Raw(Json.Encode(ViewBag.AllMembers));
+            //var availableTags = [
+            //  "ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++", "Clojure",
+            //  "COBOL", "ColdFusion", "Erlang", "Fortran", "Groovy", "Haskell",
+            //  "Java", "JavaScript", "Lisp", "Perl", "PHP", "Python",
+            //  "Ruby", "Scala", "Scheme"
+            //];
+            $( "#Account" ).autocomplete({
+              source: availableTags
+            });
+        });
+
+        function addTailEmail(type) {
+            //alert(1);
+            var current = $('#Account').val();
+            console.log(type);
+            console.log(current);
+            if (type == 'gmail') {
+                $('#EmailAddress').val(current + '.lqa@gmail.com');
+            }
+            if (type == 'lqa') {
+                $('#EmailAddress').val(current + '@@lqa.com.vn');
+            }
+
+        }
+
+</script>
 }
